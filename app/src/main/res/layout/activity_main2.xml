@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/teal_200"
+        android:ems="10"
+        android:inputType="text"
+        android:textColor="@color/purple_200"
+        android:textSize="35sp" />
+
+
+    <EditText
+        android:id="@+id/textPersonName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/purple_700"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textColor="@color/purple_200"
+        android:textSize="35sp" />
+
+
+    <EditText
+        android:id="@+id/phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/teal_200"
+        android:ems="10"
+        android:inputType="phone"
+        android:textColor="@color/purple_200"
+        android:textSize="35sp" />
+
+
+    <EditText
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/purple_700"
+        android:ems="10"
+        android:inputType="number"
+        android:textColor="@color/purple_200"
+        android:textSize="35sp" />
+
+
+    <EditText
+        android:id="@+id/textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/teal_200"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:textColor="@color/purple_200"
+        android:textSize="35sp" />
+
+
+    <EditText
+        android:id="@+id/textEmailAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/purple_700"
+        android:ems="10"
+        android:fontFamily="monospace"
+        android:inputType="textEmailAddress"
+        android:textColor="@color/purple_200"
+        android:textSize="35sp" />
+
+
+</LinearLayout>

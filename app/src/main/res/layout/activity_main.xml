@@ -6,4 +6,75 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Hello_world"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/black"
+            android:textSize="22dp" />
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="30pt"
+            android:text="EditText"
+            android:textColor="@color/teal_700"
+            android:inputType="textPersonName"
+            android:layout_gravity="center" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            android:layout_gravity="center"
+            android:ems="7"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/purple_200"
+            android:gravity="center"/>
+
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="mSwitch"
+            android:textSize="25dp"
+            android:thumbTint="@android:color/holo_red_light"
+            tools:checked="false" />
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:gravity="center"
+            android:text="CheckBox"
+            android:textStyle="italic" />
+
+        <ToggleButton
+            android:id="@+id/toggleButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ToggleButton"
+            android:rotationX="10"/>
+
+        <CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
