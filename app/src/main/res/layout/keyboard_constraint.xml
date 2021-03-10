@@ -117,13 +117,13 @@
         app:layout_constraintStart_toEndOf="@+id/button0" />
 
     <Button
-        android:id="@+id/buttonAddition"
+        android:id="@+id/buttonPlus"
         android:layout_width="72sp"
         android:layout_height="120sp"
         android:layout_marginStart="4sp"
         android:layout_marginBottom="4sp"
         android:backgroundTint="#121657"
-        android:text="@string/buttonAddition"
+        android:text="@string/buttonPlus"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/buttonPt" />
@@ -136,7 +136,7 @@
         android:backgroundTint="#121657"
         android:text="@string/buttonX"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonAddition"
+        app:layout_constraintBottom_toTopOf="@+id/buttonPlus"
         app:layout_constraintStart_toEndOf="@+id/button6" />
 
     <Button
@@ -161,19 +161,19 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/buttonAddition" />
+        app:layout_constraintStart_toEndOf="@+id/buttonPlus" />
 
     <Button
-        android:id="@+id/buttonSubtraction"
+        android:id="@+id/buttonMinus"
         android:layout_width="72sp"
         android:layout_height="60sp"
         android:layout_marginStart="4sp"
         android:backgroundTint="#121657"
-        android:text="@string/buttonSubtraction"
+        android:text="@string/buttonMinus"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/buttonEq"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/buttonAddition" />
+        app:layout_constraintStart_toEndOf="@+id/buttonPlus" />
 
     <Button
         android:id="@+id/buttonDiv"
@@ -183,7 +183,7 @@
         android:backgroundTint="#121657"
         android:text="@string/buttonDiv"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonSubtraction"
+        app:layout_constraintBottom_toTopOf="@+id/buttonMinus"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/buttonX" />
 
@@ -222,26 +222,26 @@
         app:layout_constraintStart_toEndOf="@+id/buttonMR" />
 
     <Button
-        android:id="@+id/buttonMAdd"
+        android:id="@+id/buttonMPlus"
         android:layout_width="72sp"
         android:layout_height="60sp"
         android:layout_marginStart="4sp"
         android:backgroundTint="#121657"
-        android:text="@string/buttonMAdd"
+        android:text="@string/buttonMPlus"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/button9"
         app:layout_constraintStart_toEndOf="@+id/buttonMC" />
 
     <Button
-        android:id="@+id/buttonMSubtr"
+        android:id="@+id/buttonMMinus"
         android:layout_width="72sp"
         android:layout_height="60sp"
         android:layout_marginStart="4sp"
         android:backgroundTint="#121657"
-        android:text="@string/buttonMSubtr"
+        android:text="@string/buttonMMinus"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/buttonPosNeg"
-        app:layout_constraintStart_toEndOf="@+id/buttonMAdd" />
+        app:layout_constraintStart_toEndOf="@+id/buttonMPlus" />
 
     <Button
         android:id="@+id/buttonC"
@@ -253,25 +253,48 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/buttonBack"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/buttonMSubtr" />
+        app:layout_constraintStart_toEndOf="@+id/buttonMMinus" />
 
-    <TextView
-        android:id="@+id/result"
-        android:layout_width="376sp"
-        android:layout_height="120sp"
-        android:layout_marginTop="8dp"
-        android:padding="8sp"
-        android:background="#D3C9C9"
-        android:clickable="false"
-        android:cursorVisible="true"
-        android:fontFamily="monospace"
-        android:gravity="top|right"
-        android:saveEnabled="true"
-        android:text="@string/result"
-        android:textSize="30sp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/buttonMR"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        android:background="#D3C9C9"
+        android:fontFamily="monospace"
+        tools:layout_editor_absoluteY="11dp">
+
+
+        <TextView
+            android:id="@+id/phrase"
+            android:layout_width="wrap_content"
+            android:layout_height="60sp"
+            android:layout_gravity="right"
+            android:clickable="false"
+            android:cursorVisible="true"
+            android:gravity="center_vertical|right"
+            android:padding="8sp"
+            android:saveEnabled="true"
+            android:text="@string/phrase"
+            android:textSize="30sp"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/inputStr"
+            android:layout_width="376sp"
+            android:layout_height="60sp"
+            android:clickable="false"
+            android:cursorVisible="true"
+            android:padding="8sp"
+            android:gravity="center_vertical|right"
+            android:saveEnabled="true"
+            android:text="@string/inputStr"
+            android:textSize="30sp"
+            />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
