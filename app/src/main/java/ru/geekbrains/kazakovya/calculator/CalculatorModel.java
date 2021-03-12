@@ -24,6 +24,7 @@ public class CalculatorModel {
     private boolean mIsInteger = true;
     private boolean mLastKeyIsAction = false;
     private boolean mIsPositive = true;
+    private double mMemory;
 
 
     View.OnClickListener buttonsNumClickListener = v -> {
@@ -101,21 +102,19 @@ public class CalculatorModel {
             mExpression.delete(mExpression.length()-3, mExpression.length()-1);
         } else {
             mLastKeyIsAction = true;
-            sbToNum(mInputStr);
             if (mFirstNum == 0) {
-                mFirstNum = mNum;
-                mtvFirstNum = mtvNum;
+                mFirstNum = sbToNum(mInputStr);
+                mtvFirstNum = delExtraZero(mFirstNum);
                 mExpression.setLength(0);
                 mExpression.append(mtvFirstNum.toString() + " " + ((String) ((Button) v).getText()) + " ");
                 readyToEnterNewNumber();
                 mActionButtonsId = v.getId();
             } else if (mSndNum == 0) {
-                mSndNum = mNum;
+                mSndNum = sbToNum(mInputStr);
                 computation(mFirstNum, mSndNum, mActionButtonsId);
                 mActionButtonsId = v.getId();
-                sbToNum(new StringBuilder(String.valueOf(mResult)));
-                mFirstNum = mNum;
-                mtvResult = mtvNum;
+                mFirstNum = sbToNum(new StringBuilder(String.valueOf(mResult)));
+                mtvResult = delExtraZero(mFirstNum);
                 mExpression.setLength(0);
                 mExpression.append(mtvResult.toString() + " " + ((String) ((Button) v).getText()) + " ");
                 MainActivity.mTextView.setText(mtvResult);
@@ -131,8 +130,13 @@ public class CalculatorModel {
     View.OnClickListener buttonsMemoryActClickListener = v -> {
         switch (v.getId()) {
             case R.id.buttonMC:
+                mMemory = 0;
                 break;
             case R.id.buttonMR:
+                mInputStr = new StringBuilder(String.valueOf(mMemory));
+                mFirstNum = sbToNum(mInputStr);
+                mtvFirstNum = delExtraZero(mFirstNum);
+
                 break;
             case R.id.buttonMPlus:
                 break;
@@ -149,14 +153,14 @@ public class CalculatorModel {
         mIsPositive = true;
     }
 
-    private void sbToNum (StringBuilder sbNum) {
+    private double sbToNum (StringBuilder sbNum) {
         if (sbNum.length() == 0) {
             mNum = 0;
             mtvNum = sbNum.append("0");
-            return;
+            return mNum;
         }
-        mNum = Double.valueOf(sbNum.toString());
-        mtvNum = delExtraZero(new StringBuilder(String.valueOf(mNum)));
+        return mNum = Double.valueOf(sbNum.toString());
+//        mtvNum = delExtraZero(new StringBuilder(String.valueOf(mNum)));
     }
 
     private void computation (double mFirstArg, double mSndArg, int buttonId) {
@@ -176,7 +180,8 @@ public class CalculatorModel {
         }
     }
 
-    private  StringBuilder delExtraZero (StringBuilder sb) {
+    private  StringBuilder delExtraZero (double d) {
+        StringBuilder sb = new StringBuilder(String.valueOf(d));
         for (int i = 0; i < sb.length()-2; i++) {
             if ((sb.charAt(sb.length()-1-i) == '0')) {
                 sb.deleteCharAt(sb.length()-1-i);

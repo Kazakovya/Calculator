@@ -13,12 +13,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final String MY_TAG = "Lifecicle";
     public static final String VALUE = "Val";
 
-
     static TextView mTextView;
     static TextView mExpressionView;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,8 +81,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         CalculatorModel calculatorModel = new CalculatorModel();
 
-
-
         for (int i = 0; i < buttonsNum.length; i++) {
             buttonsNum[i].setOnClickListener(calculatorModel.buttonsNumClickListener);
         }
@@ -100,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for (int i = 0; i < buttonsMemoryAct.length; i++) {
             buttonsMainAct[i].setOnClickListener(calculatorModel.buttonsMemoryActClickListener);
         }
-
     }
 
     @Override
