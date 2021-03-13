@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    public static int CAPASITY = 9;
+    public static int CAPASITY = 8;
     public static final String MY_TAG = "Lifecicle";
     public static final String VALUE = "Val";
 
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 button9,
                 buttonPt,
                 buttonBack,
-                buttonPosNeg
+                buttonPosNeg,
         };
 
         Button [] buttonsMainAct = new Button[] {
@@ -91,9 +91,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         buttonC.setOnClickListener(calculatorModel.buttonCClickListener);
 
-        for (int i = 0; i < buttonsMemoryAct.length; i++) {
-            buttonsMainAct[i].setOnClickListener(calculatorModel.buttonsMemoryActClickListener);
-        }
+//        for (int i = 0; i < buttonsMemoryAct.length; i++) {
+//            buttonsMainAct[i].setOnClickListener(calculatorModel.buttonsMemoryActClickListener);
+//        }
     }
 
     @Override
@@ -136,4 +136,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
     }
 
- }
+}
