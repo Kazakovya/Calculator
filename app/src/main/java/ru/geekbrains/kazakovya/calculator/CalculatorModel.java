@@ -84,7 +84,7 @@ public class CalculatorModel {
                 mIsPositive = true;
                 trueCapasity --;
             }
-            mInputStr = new StringBuilder(delExtraZero((sbToNum(mInputStr) * (-1)), mInputStr));
+            mInputStr = new StringBuilder(delExtraZero(sbToNum(mInputStr) * (-1)));
             MainActivity.mTextView.setText(mInputStr);
 //                    if (mIsPositive) {
 //                        mInputStr.insert(0, '-');
@@ -163,24 +163,33 @@ public class CalculatorModel {
 
         if (mFirstNum == 0) {
             mFirstNum = sbToNum(mInputStr);
-            mtvFirstNum = delExtraZero(mFirstNum, mInputStr);
-            MainActivity.mTextView.setText(mInputStr);
+            mtvFirstNum = delExtraZero(mFirstNum);
+            MainActivity.mTextView.setText(mtvFirstNum);
             Log.e(VALUE, "mFirstNum: " + mFirstNum);
             Log.e(VALUE, "mtvFirstNum: " + mtvFirstNum);
-            Log.e(VALUE, "lastKey: " + ((String) ((Button) v).getText()));
+            Log.e(VALUE, "lastKey: " + ((Button) v).getText());
 
-            mExpression = new StringBuilder(mtvFirstNum.toString() + " " + ((String) ((Button) v).getText()) + " ");
+            mExpression = new StringBuilder(mtvFirstNum.toString() + " " + ((Button) v).getText() + " ");
             readyToEnterNewNumber();
             mActionButtonsId = v.getId();
         } else {
             mSndNum = sbToNum(mInputStr);
-            mtvSndNum = delExtraZero(mSndNum, mInputStr);
+            mtvSndNum = delExtraZero(mSndNum);
+            Log.e(VALUE, "mFirstNum: " + mFirstNum);
+            Log.e(VALUE, "mSndNum: " + mSndNum);
             computation(mFirstNum, mSndNum, mActionButtonsId);
+            Log.e(VALUE, "mResult: " + mResult);
+            Log.e(VALUE, "mFirstNum: " + mFirstNum);
+            Log.e(VALUE, "mSndNum: " + mSndNum);
             mActionButtonsId = v.getId();
             mFirstNum = sbToNum(new StringBuilder(String.valueOf(mResult)));
-            mtvResult = delExtraZero(mFirstNum, mInputStr);
-            mExpression = new StringBuilder(mtvResult.toString() + " " + ((String) ((Button) v).getText()) + " ");
+            Log.e(VALUE, "mFirstNum: " + mFirstNum);
+            mtvResult = delExtraZero(mFirstNum);
+            mExpression = new StringBuilder(mtvResult.toString() + " " + ((Button) v).getText() + " ");
             MainActivity.mTextView.setText(mtvResult);
+            Log.e(VALUE, "mtvResult: " + mtvResult);
+            Log.e(VALUE, "mExpression: " + mExpression);
+
         }
         MainActivity.mExpressionView.setText(mExpression);
     };
@@ -195,7 +204,7 @@ public class CalculatorModel {
                 mMemory = 0;
                 break;
             case R.id.buttonMR:
-                mInputStr = delExtraZero(mMemory, mInputStr);
+                mInputStr = delExtraZero(mMemory);
                 MainActivity.mTextView.setText(mInputStr);
                 mCanEdit = false;
                 break;
@@ -237,19 +246,19 @@ public class CalculatorModel {
             case R.id.buttonDiv:
                 mResult = mFirstArg / mSndArg;
                 break;
-            case R.id.buttonEq:
-                if (mSndNum == 0) {
-                    mSndNum = mFirstArg;
-                }
+//            case R.id.buttonEq:
+//                if (mSndNum == 0) {
+//                    mSndNum = mFirstArg;
+//                }
         }
     }
 
-    private  StringBuilder delExtraZero (double d, StringBuilder inputStr) {
+    private  StringBuilder delExtraZero (double d) {
         StringBuilder sb = new StringBuilder(String.valueOf(d));
-        if (Math.abs(d) >= (1*10*CAPASITY)) {
-            sb = inputStr;
-            return sb;
-        }
+//        if (Math.abs(d) >= (10^CAPASITY)) {
+//            sb = inputStr;
+//            return sb;
+//        }
         for (int i = 0; i < sb.length()-2; i++) {
             if (!(sb.charAt(sb.length()-1-i) == '0') && !(sb.charAt(sb.length()-1-i) == '.')) {
                 return sb;

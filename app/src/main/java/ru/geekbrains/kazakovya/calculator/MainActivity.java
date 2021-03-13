@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 buttonMinus,
                 buttonX,
                 buttonDiv,
-                buttonEq
+//                buttonEq
         };
         Button [] buttonsMemoryAct = new Button[] {
                 buttonMR,
