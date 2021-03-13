@@ -3,9 +3,7 @@ package ru.geekbrains.kazakovya.calculator;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
-import static ru.geekbrains.kazakovya.calculator.MainActivity.CAPASITY;
 import static ru.geekbrains.kazakovya.calculator.MainActivity.VALUE;
 
 public class CalculatorModel {
@@ -14,15 +12,16 @@ public class CalculatorModel {
     private StringBuilder mExpression = new StringBuilder();
     private StringBuilder mInputStr = new StringBuilder("0");
     private int trueCapasity = MainActivity.CAPASITY;
-    private double mMemory;
+    private static double mMemory;
     private double mNum;
     private double mFirstNum = 0;
     private StringBuilder mtvFirstNum;
     private double mSndNum;
     private StringBuilder mtvSndNum;
     private double mResult;
-    private StringBuilder mtvResult;
     private int mActionButtonsId;
+    private String mLastAction;
+    private boolean mLastKeyIsEq = false;
     private boolean mIsInteger = true;
     private boolean mLastKeyIsAction = false;
     private boolean mIsPositive = true;
@@ -30,7 +29,9 @@ public class CalculatorModel {
 
 
     View.OnClickListener buttonsNumClickListener = v -> {
+        mLastKeyIsEq = false;
         if (mLastKeyIsAction) readyToEnterNewNumber();
+//        if (mSndNum == 0) mLastAction = null;
         if (mInputStr.length() == 0 || mInputStr.toString().equals("0")) {
             switch (v.getId()) {
                 case R.id.button0:
@@ -56,8 +57,6 @@ public class CalculatorModel {
                 mInputStr.deleteCharAt(0);
                 trueCapasity--;
                 Log.e(VALUE, "mInputStr: " + mInputStr);
-
-//                mInputStr.append(" ");
                 Log.e(VALUE, "mInputStr: " + mInputStr);
                 mIsPositive = true;
                 MainActivity.mTextView.setText(mInputStr);
@@ -86,17 +85,6 @@ public class CalculatorModel {
             }
             mInputStr = new StringBuilder(delExtraZero(sbToNum(mInputStr) * (-1)));
             MainActivity.mTextView.setText(mInputStr);
-//                    if (mIsPositive) {
-//                        mInputStr.insert(0, '-');
-//                        trueCapasity++;
-//                        MainActivity.mTextView.setText(mInputStr);
-//                        mIsPositive = false;
-//                    } else {
-//                        mInputStr.deleteCharAt(0);
-//                        trueCapasity--;
-//                        MainActivity.mTextView.setText(mInputStr);
-//                        mIsPositive = true;
-//                    }
 
         } else if (mInputStr.length() < trueCapasity) {
             switch (v.getId()) {
@@ -116,86 +104,69 @@ public class CalculatorModel {
         }
     };
 
-//    View.OnClickListener buttonsMainActClickListener = v -> {
-//        if (mLastKeyIsAction) {
-//            mExpression.delete(mExpression.length()-3, mExpression.length()-1);
-//        } else {
-//            mLastKeyIsAction = true;
-//            sbToNum(mInputStr);
-//            if (mFirstNum == 0) {
-//                mFirstNum = sbToNum(mInputStr);
-//                mtvFirstNum = delExtraZero(mFirstNum);
-//                mExpression.setLength(0);
-//                mExpression.append(mtvFirstNum.toString() + " " + ((String) ((Button) v).getText()) + " ");
-//                readyToEnterNewNumber();
-//                mActionButtonsId = v.getId();
-//            } else if (mSndNum == 0) {
-//                mSndNum = mNum;
-//                computation(mFirstNum, mSndNum, mActionButtonsId);
-//                mActionButtonsId = v.getId();
-//                sbToNum(new StringBuilder(String.valueOf(mResult)));
-//                mFirstNum = sbToNum(mInputStr);
-//                mtvResult = delExtraZero(mFirstNum);
-//                mExpression.setLength(0);
-//                mExpression.append(mtvResult.toString() + " " + ((String) ((Button) v).getText()) + " ");
-//                MainActivity.mTextView.setText(mtvResult);
-//            }
-//        }
-//        MainActivity.mExpressionView.setText(mExpression);
-//        Log.e(VALUE, "mInputStr: " + mInputStr);
-//        Log.e(VALUE, "mExpression " + mExpression);
-//        Log.e(VALUE, "lastKey: " + ((String) ((Button) v).getText()));
-//        Log.e(VALUE, "mLastKeyIsAction: " + mLastKeyIsAction);
-//        Log.e(VALUE, "mNum: " + mNum);
-//        Log.e(VALUE, "mFirstNum: " + mFirstNum);
-//        Log.e(VALUE, "mtvFirstNum: " + mtvFirstNum);
-//        Log.e(VALUE, "mSndNum: " + mSndNum);
-//        Log.e(VALUE, "mResult: " + mResult);
-//        Log.e(VALUE, "mtvResult: " + mtvResult);
-//    };
-
     View.OnClickListener buttonsMainActClickListener = v -> {
         if (mLastKeyIsAction) {
             mExpression.delete(mExpression.length()-3, mExpression.length()-1);
         }
         mLastKeyIsAction = true;
-        Log.e(VALUE, "mLastKeyIsAction: " + mLastKeyIsAction);
+//        Log.e(VALUE, "mLastKeyIsAction: " + mLastKeyIsAction);
 
-        if (mFirstNum == 0) {
+        if (mFirstNum == 0 || mLastKeyIsEq) {
             mFirstNum = sbToNum(mInputStr);
             mtvFirstNum = delExtraZero(mFirstNum);
             MainActivity.mTextView.setText(mtvFirstNum);
-            Log.e(VALUE, "mFirstNum: " + mFirstNum);
-            Log.e(VALUE, "mtvFirstNum: " + mtvFirstNum);
-            Log.e(VALUE, "lastKey: " + ((Button) v).getText());
+//            Log.e(VALUE, "mFirstNum: " + mFirstNum);
+//            Log.e(VALUE, "mtvFirstNum: " + mtvFirstNum);
+//            Log.e(VALUE, "lastKey: " + ((Button) v).getText());
 
             mExpression = new StringBuilder(mtvFirstNum.toString() + " " + ((Button) v).getText() + " ");
             readyToEnterNewNumber();
             mActionButtonsId = v.getId();
+            mLastAction = (String) ((Button) v).getText();
         } else {
             mSndNum = sbToNum(mInputStr);
             mtvSndNum = delExtraZero(mSndNum);
-            Log.e(VALUE, "mFirstNum: " + mFirstNum);
-            Log.e(VALUE, "mSndNum: " + mSndNum);
             computation(mFirstNum, mSndNum, mActionButtonsId);
-            Log.e(VALUE, "mResult: " + mResult);
-            Log.e(VALUE, "mFirstNum: " + mFirstNum);
-            Log.e(VALUE, "mSndNum: " + mSndNum);
             mActionButtonsId = v.getId();
-            mFirstNum = sbToNum(new StringBuilder(String.valueOf(mResult)));
+            mLastAction = (String) ((Button) v).getText();
+            mtvFirstNum = delExtraZero(mResult);
+            mExpression = new StringBuilder(mtvFirstNum.toString() + " " + ((Button) v).getText() + " ");
+            mFirstNum = mResult;
             Log.e(VALUE, "mFirstNum: " + mFirstNum);
-            mtvResult = delExtraZero(mFirstNum);
-            mExpression = new StringBuilder(mtvResult.toString() + " " + ((Button) v).getText() + " ");
-            MainActivity.mTextView.setText(mtvResult);
-            Log.e(VALUE, "mtvResult: " + mtvResult);
-            Log.e(VALUE, "mExpression: " + mExpression);
 
+            mSndNum = 0;
+            MainActivity.mTextView.setText(mtvFirstNum);
+            Log.e(VALUE, "mtvResult: " + mtvFirstNum);
+            Log.e(VALUE, "mExpression: " + mExpression);
+            mInputStr = new StringBuilder(mtvFirstNum);
         }
         MainActivity.mExpressionView.setText(mExpression);
     };
 
     View.OnClickListener buttonCClickListener = v -> {
         reset();
+    };
+
+    View.OnClickListener buttonEqClickListener = v -> {
+        Log.e(VALUE, "mLastKeyIsAction: " + mLastKeyIsAction);
+        if(mLastKeyIsAction) {
+            mSndNum = mFirstNum;
+            mtvSndNum = delExtraZero(mSndNum);
+        } else if (mLastAction == null) {
+            return;
+        } else {
+            mSndNum = sbToNum(mInputStr);
+            mtvSndNum = delExtraZero(mSndNum);
+        }
+        computation(mFirstNum, mSndNum, mActionButtonsId);
+        mExpression = new StringBuilder(mtvFirstNum.toString() +
+                " " + mLastAction + " " + mtvSndNum + " = ");
+        mFirstNum = mResult;
+        mtvFirstNum = delExtraZero(mResult);
+        mInputStr = new StringBuilder(mtvFirstNum);
+        MainActivity.mTextView.setText(mtvFirstNum);
+        MainActivity.mExpressionView.setText(mExpression);
+        mLastKeyIsEq = true;
     };
 
     View.OnClickListener buttonsMemoryActClickListener = v -> {
@@ -221,8 +192,8 @@ public class CalculatorModel {
         mInputStr.setLength(0);
         trueCapasity = MainActivity.CAPASITY;
         mIsInteger = true;
-        mLastKeyIsAction = false;
         mIsPositive = true;
+        mLastKeyIsEq = false;
     }
 
     private double sbToNum (StringBuilder sbNum) {
@@ -246,19 +217,11 @@ public class CalculatorModel {
             case R.id.buttonDiv:
                 mResult = mFirstArg / mSndArg;
                 break;
-//            case R.id.buttonEq:
-//                if (mSndNum == 0) {
-//                    mSndNum = mFirstArg;
-//                }
         }
     }
 
     private  StringBuilder delExtraZero (double d) {
         StringBuilder sb = new StringBuilder(String.valueOf(d));
-//        if (Math.abs(d) >= (10^CAPASITY)) {
-//            sb = inputStr;
-//            return sb;
-//        }
         for (int i = 0; i < sb.length()-2; i++) {
             if (!(sb.charAt(sb.length()-1-i) == '0') && !(sb.charAt(sb.length()-1-i) == '.')) {
                 return sb;
@@ -284,5 +247,7 @@ public class CalculatorModel {
         MainActivity.mExpressionView.setText(mExpression);
         MainActivity.mTextView.setText("0");
         mFirstNum = 0;
+        mLastAction = null;
+        mLastKeyIsEq = false;
     }
 }
