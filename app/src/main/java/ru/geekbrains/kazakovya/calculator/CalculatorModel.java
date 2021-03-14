@@ -3,17 +3,28 @@ package ru.geekbrains.kazakovya.calculator;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import static ru.geekbrains.kazakovya.calculator.MainActivity.VALUE;
 
 public class CalculatorModel {
 
+    private TextView mainScreen;
+    private TextView expressionScreen;
+    private TextView memoryScreen;
+
+
+    public CalculatorModel (TextView mainScreen, TextView expressionScreen, TextView memoryScreen) {
+        this.mainScreen = mainScreen;
+        this.expressionScreen = expressionScreen;
+        this.memoryScreen = memoryScreen;
+    }
 
     private StringBuilder mExpression = new StringBuilder();
     private StringBuilder mInputStr = new StringBuilder("0");
     private int trueCapasity = MainActivity.CAPASITY;
-    private static double mMemory;
-    private double mNum;
+//    private static double mMemory;
+//    private double mNum;
     private double mFirstNum = 0;
     private StringBuilder mtvFirstNum;
     private double mSndNum;
@@ -25,7 +36,7 @@ public class CalculatorModel {
     private boolean mIsInteger = true;
     private boolean mLastKeyIsAction = false;
     private boolean mIsPositive = true;
-    private boolean mCanEdit = true;
+//    private boolean mCanEdit = true;
 
 
     View.OnClickListener buttonsNumClickListener = v -> {
@@ -45,7 +56,7 @@ public class CalculatorModel {
                     trueCapasity++;
                     mIsInteger = false;
                     mLastKeyIsAction = false;
-                    MainActivity.mTextView.setText(mInputStr);
+                    mainScreen.setText(mInputStr);
                     return;
                 case R.id.buttonPosNeg:
                     break;
@@ -53,7 +64,7 @@ public class CalculatorModel {
                     break;
                 default:
                     mInputStr = new StringBuilder(((Button) v).getText());
-                    MainActivity.mTextView.setText(mInputStr);
+                    mainScreen.setText(mInputStr);
                     mLastKeyIsAction = false;
             }
         } else if (v.getId() == R.id.buttonBack) {
@@ -61,7 +72,7 @@ public class CalculatorModel {
                 mInputStr.deleteCharAt(0);
                 trueCapasity--;
                 mIsPositive = true;
-                MainActivity.mTextView.setText(mInputStr);
+                mainScreen.setText(mInputStr);
                 return;
             } else  if (mInputStr.charAt(mInputStr.length()-1) == '.') {
                 mIsInteger = true;
@@ -69,10 +80,10 @@ public class CalculatorModel {
             }
             if (mInputStr.length() == 1) {
                 mInputStr = new StringBuilder("0");
-                MainActivity.mTextView.setText(mInputStr);
+                mainScreen.setText(mInputStr);
             } else {
                 mInputStr.deleteCharAt(mInputStr.length()-1);
-                MainActivity.mTextView.setText(mInputStr);
+                mainScreen.setText(mInputStr);
             }
         } else if (v.getId() == R.id.buttonPosNeg) {
             if (sbToNum(mInputStr) > 0) {
@@ -83,7 +94,7 @@ public class CalculatorModel {
                 trueCapasity --;
             }
             mInputStr = new StringBuilder(delExtraZero(sbToNum(mInputStr) * (-1)));
-            MainActivity.mTextView.setText(mInputStr);
+            mainScreen.setText(mInputStr);
 
         } else if (mInputStr.length() < trueCapasity) {
             switch (v.getId()) {
@@ -91,13 +102,13 @@ public class CalculatorModel {
                     if (mIsInteger) {
                         mInputStr.append(((Button) v).getText());
                         trueCapasity++;
-                        MainActivity.mTextView.setText(mInputStr);
+                        mainScreen.setText(mInputStr);
                         mIsInteger = false;
                     }
                     break;
                 default:
                     mInputStr.append(((Button) v).getText());
-                    MainActivity.mTextView.setText(mInputStr);
+                    mainScreen.setText(mInputStr);
                     mLastKeyIsAction = false;
             }
         }
@@ -112,7 +123,7 @@ public class CalculatorModel {
             mFirstNum = sbToNum(mInputStr);
             mSndNum = 0;
             mtvFirstNum = delExtraZero(mFirstNum);
-            MainActivity.mTextView.setText(mtvFirstNum);
+            mainScreen.setText(mtvFirstNum);
             mExpression = new StringBuilder(mtvFirstNum.toString() + " " + ((Button) v).getText() + " ");
             readyToEnterNewNumber();
             mActionButtonsId = v.getId();
@@ -140,11 +151,11 @@ public class CalculatorModel {
             mExpression = new StringBuilder(mtvFirstNum.toString() + " " + ((Button) v).getText() + " ");
             mFirstNum = mResult;
 
-            MainActivity.mTextView.setText(mtvFirstNum);
+            mainScreen.setText(mtvFirstNum);
             mInputStr = new StringBuilder(mtvFirstNum);
         }
         mLastKeyIsAction = true;
-        MainActivity.mExpressionView.setText(mExpression);
+        expressionScreen.setText(mExpression);
         Log.e(VALUE, "mExpression: " + mExpression);
     };
 
@@ -169,8 +180,8 @@ public class CalculatorModel {
         mFirstNum = mResult;
         mtvFirstNum = delExtraZero(mResult);
         mInputStr = new StringBuilder(mtvFirstNum);
-        MainActivity.mTextView.setText(mtvFirstNum);
-        MainActivity.mExpressionView.setText(mExpression);
+        mainScreen.setText(mtvFirstNum);
+        expressionScreen.setText(mExpression);
         readyToEnterNewNumber();
         mLastKeyIsEq = true;
     };
@@ -182,7 +193,7 @@ public class CalculatorModel {
 //                break;
 //            case R.id.buttonMR:
 //                mInputStr = delExtraZero(mMemory);
-//                MainActivity.mTextView.setText(mInputStr);
+//                mainScreen.setText(mInputStr);
 //                mCanEdit = false;
 //                break;
 //            case R.id.buttonMPlus:
@@ -194,27 +205,27 @@ public class CalculatorModel {
 //        }
 //    };
 
-    public void buttonsMemoryActClicked (View v) {
-        switch (v.getId()) {
-            case R.id.buttonMC:
-                mMemory = 0;
-                MainActivity.mMemMark.setText("");
-                break;
-            case R.id.buttonMR:
-                mInputStr = delExtraZero(mMemory);
-                MainActivity.mTextView.setText(mInputStr);
-                mCanEdit = false;
-                break;
-            case R.id.buttonMPlus:
-                mMemory += sbToNum(mInputStr);
-                if (mMemory != 0) MainActivity.mMemMark.setText("M");
-                break;
-            case R.id.buttonMMinus:
-                mMemory -= sbToNum(mInputStr);
-                if (mMemory != 0) MainActivity.mMemMark.setText("M");
-                break;
-        }
-    };
+//    public void buttonsMemoryActClicked (View v) {
+//        switch (v.getId()) {
+//            case R.id.buttonMC:
+//                mMemory = 0;
+//                memoryScreen.setText("");
+//                break;
+//            case R.id.buttonMR:
+//                mInputStr = delExtraZero(mMemory);
+//                mainScreen.setText(mInputStr);
+//                mCanEdit = false;
+//                break;
+//            case R.id.buttonMPlus:
+//                mMemory += sbToNum(mInputStr);
+//                if (mMemory != 0) memoryScreen.setText("M");
+//                break;
+//            case R.id.buttonMMinus:
+//                mMemory -= sbToNum(mInputStr);
+//                if (mMemory != 0) memoryScreen.setText("M");
+//                break;
+//        }
+//    };
 
     private void readyToEnterNewNumber (){
         mInputStr.setLength(0);
@@ -225,10 +236,11 @@ public class CalculatorModel {
     }
 
     private double sbToNum (StringBuilder sbNum) {
+        double num;
         if (sbNum.length() == 0) {
-            mNum = 0;
+            num = 0;
         }
-        return mNum = Double.valueOf(sbNum.toString());
+        return num = Double.valueOf(sbNum.toString());
     }
 
     private void computation (double mFirstArg, double mSndArg, int buttonId) {
@@ -272,8 +284,8 @@ public class CalculatorModel {
         mIsInteger = true;
         mLastKeyIsAction = false;
         mIsPositive = true;
-        MainActivity.mExpressionView.setText(mExpression);
-        MainActivity.mTextView.setText("0");
+        expressionScreen.setText(mExpression);
+        mainScreen.setText("0");
         mFirstNum = 0;
         mLastAction = null;
         mLastKeyIsEq = false;

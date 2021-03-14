@@ -14,8 +14,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final String VALUE = "Val";
 
     static TextView mTextView;
-    static TextView mExpressionView;
-    static TextView mMemMark;
+    private TextView mExpressionView;
+    private TextView mMemMark;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 buttonMMinus,
         };
 
-        CalculatorModel calculatorModel = new CalculatorModel();
+        CalculatorModel calculatorModel = new CalculatorModel(mTextView, mExpressionView, mMemMark);
 
         for (int i = 0; i < buttonsNum.length; i++) {
             buttonsNum[i].setOnClickListener(calculatorModel.buttonsNumClickListener);
