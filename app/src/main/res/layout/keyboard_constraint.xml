@@ -206,6 +206,7 @@
         android:layout_height="60sp"
         android:backgroundTint="#121657"
         android:text="@string/buttonMR"
+        android:onClick="buttonsMemoryActClicked"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/button7"
         app:layout_constraintStart_toStartOf="parent" />
@@ -217,6 +218,7 @@
         android:layout_marginStart="4sp"
         android:backgroundTint="#121657"
         android:text="@string/buttonMC"
+        android:onClick="buttonsMemoryActClicked"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/button8"
         app:layout_constraintStart_toEndOf="@+id/buttonMR" />
@@ -228,6 +230,7 @@
         android:layout_marginStart="4sp"
         android:backgroundTint="#121657"
         android:text="@string/buttonMPlus"
+        android:onClick="buttonsMemoryActClicked"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/button9"
         app:layout_constraintStart_toEndOf="@+id/buttonMC" />
@@ -239,6 +242,7 @@
         android:layout_marginStart="4sp"
         android:backgroundTint="#121657"
         android:text="@string/buttonMMinus"
+        android:onClick="buttonsMemoryActClicked"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/buttonPosNeg"
         app:layout_constraintStart_toEndOf="@+id/buttonMPlus" />
@@ -266,12 +270,12 @@
         android:layout_marginTop="8dp"
         android:background="#D3C9C9"
         android:fontFamily="monospace"
-        tools:layout_editor_absoluteY="11dp">
+        tools:layout_editor_absoluteY="12dp">
 
 
         <TextView
             android:id="@+id/phrase"
-            android:layout_width="wrap_content"
+            android:layout_width="376sp"
             android:layout_height="60sp"
             android:layout_gravity="right"
             android:clickable="false"
@@ -279,22 +283,44 @@
             android:gravity="center_vertical|right"
             android:padding="8sp"
             android:saveEnabled="true"
-            android:text="@string/phrase"
+            android:text="@string/Expression"
             android:textSize="30sp"
             tools:visibility="visible" />
 
-        <TextView
-            android:id="@+id/inputStr"
+        <LinearLayout
             android:layout_width="376sp"
-            android:layout_height="60sp"
-            android:clickable="false"
-            android:cursorVisible="true"
-            android:padding="8sp"
-            android:gravity="center_vertical|right"
-            android:saveEnabled="true"
-            android:text="@string/inputStr"
-            android:textSize="30sp"
-            />
+            android:layout_height="72sp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/memMark"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical|left"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:gravity="center_vertical|left"
+                android:padding="8sp"
+                android:saveEnabled="true"
+                android:text="@string/memMark"
+                android:textSize="36sp" />
+
+            <TextView
+                android:id="@+id/inputStr"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical|right"
+                android:clickable="false"
+                android:cursorVisible="true"
+                android:gravity="center_vertical|right"
+                android:padding="8sp"
+                android:saveEnabled="true"
+                android:text="@string/inputStr"
+                android:textSize="36sp" />
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

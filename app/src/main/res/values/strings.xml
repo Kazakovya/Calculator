@@ -24,6 +24,7 @@
     <string name="buttonC">C</string>
     <string name="buttonBack">➣</string>
     <string name="inputStr">0</string>
-    <string name="phrase"></string>
+    <string name="memMark"></string>
+    <string name="Expression"></string>
 
 </resources>

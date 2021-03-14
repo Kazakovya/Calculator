@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     static TextView mTextView;
     static TextView mExpressionView;
+    static TextView mMemMark;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button buttonPosNeg = findViewById(R.id.buttonPosNeg);
         mTextView = findViewById(R.id.inputStr);
         mExpressionView = findViewById(R.id.phrase);
+        mMemMark = findViewById(R.id.memMark);
 
         Button [] buttonsNum = new Button[] {
                 button0,
@@ -137,5 +139,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
     }
+
 
 }
