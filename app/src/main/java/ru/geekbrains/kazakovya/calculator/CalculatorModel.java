@@ -225,6 +225,40 @@ public class CalculatorModel {
         }
     }
 
+//    View.OnClickListener buttonsMemoryActClickListener = v -> {
+//        switch (v.getId()) {
+//            case R.id.buttonMC:
+//                mMemory = 0;
+//                Log.e(VALUE, "045.1 mMemory: " + mMemory);
+//                memoryScreen.setText("");
+//                break;
+//            case R.id.buttonMR:
+//                mInputStr = delExtraZero(mMemory);
+//                mainScreen.setText(mInputStr);
+//                Log.e(VALUE, "045.2 mMemory: " + mMemory);
+//                Log.e(VALUE, "045.3 mInputStr: " + mInputStr);
+//                break;
+//            case R.id.buttonMPlus:
+//                mMemory += sbToNum(mInputStr);
+//                if (mMemory != 0) memoryScreen.setText("M");
+//                Log.e(VALUE, "045.4 mMemory: " + mMemory);
+//                break;
+//            case R.id.buttonMMinus:
+//                mMemory -= sbToNum(mInputStr);
+//                if (mMemory != 0) memoryScreen.setText("M");
+//                Log.e(VALUE, "045.5 mMemory: " + mMemory);
+//                break;
+//        }
+//    };
+
+    private void readyToEnterNewNumber (){
+        mInputStr.setLength(0);
+        Log.e(VALUE, "046. readyToEnterNewNumber: " + mInputStr.length());
+        trueCapasity = MainActivity.CAPASITY;
+        mIsInteger = true;
+        mIsPositive = true;
+    }
+
 //    public void buttonsMemoryActClicked (View v) {
 //        switch (v.getId()) {
 //            case R.id.buttonMC:
@@ -246,6 +280,16 @@ public class CalculatorModel {
 //                break;
 //        }
 //    };
+
+    private double sbToNum (StringBuilder sbNum) {
+        if (sbNum.length() == 0) {
+            Log.e(VALUE, "047. sbToNum = 0: " + sbNum);
+            return  0;
+        }
+        Log.e(VALUE, "048. sbToNum: " + Double.valueOf(sbNum.toString())
+                + "\n sbNum: " + sbNum);
+        return Double.valueOf(sbNum.toString());
+    }
 
 //    View.OnClickListener mButtonsMemoryActionClickListener = new View.OnClickListener() {
 //        @Override
@@ -271,24 +315,6 @@ public class CalculatorModel {
 //            }
 //        }
 //    };
-
-    private void readyToEnterNewNumber (){
-        mInputStr.setLength(0);
-        Log.e(VALUE, "046. readyToEnterNewNumber: " + mInputStr.length());
-        trueCapasity = MainActivity.CAPASITY;
-        mIsInteger = true;
-        mIsPositive = true;
-    }
-
-    private double sbToNum (StringBuilder sbNum) {
-        if (sbNum.length() == 0) {
-            Log.e(VALUE, "047. sbToNum = 0: " + sbNum);
-            return  0;
-        }
-        Log.e(VALUE, "048. sbToNum: " + Double.valueOf(sbNum.toString())
-                + "\n sbNum: " + sbNum);
-        return Double.valueOf(sbNum.toString());
-    }
 
     private double computation (double mFirstArg, double mSndArg, StringBuilder expression) throws ArithmeticException {
         mLastAction = lastAction(expression);

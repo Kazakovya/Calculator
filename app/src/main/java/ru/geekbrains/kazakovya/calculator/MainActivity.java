@@ -99,6 +99,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             buttonsMainAct[i].setOnClickListener(calculatorModel.buttonsMainActClickListener);
         }
 
+//        for (int i = 0; i < buttonsMemoryAct.length; i++) {
+//            buttonsMemoryAct[i].setOnClickListener(calculatorModel.buttonsMemoryActClickListener);
+//        }
+
         buttonC.setOnClickListener(calculatorModel.buttonCClickListener);
 
         buttonEq.setOnClickListener(calculatorModel.buttonEqClickListener);
