@@ -1,21 +1,29 @@
 package ru.geekbrains.kazakovya.calculator;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    public static int CAPASITY = 8;
+    public static final int CAPASITY = 8;
     public static final String MY_TAG = "Lifecicle";
     public static final String VALUE = "Val";
+    public static final String  KEY_MAIN_SCREEN = "MainScreen";
+    public static final String  KEY_EQUATION = "Equation";
+//    public static final String  KEY_FIRST_ARG = "FirstArg";
+//    public static final String  KEY_SND_ARG = "FirstArg";
+//    public static final String  KEY_LASTACTION_ARG = "FirstArg";
 
     static TextView mTextView;
     private TextView mExpressionView;
     private TextView mMemMark;
+    private CalculatorModel calculatorModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 buttonMMinus,
         };
 
-        CalculatorModel calculatorModel = new CalculatorModel(mTextView, mExpressionView, mMemMark);
+        calculatorModel = new CalculatorModel(mTextView, mExpressionView, mMemMark);
 
         for (int i = 0; i < buttonsNum.length; i++) {
             buttonsNum[i].setOnClickListener(calculatorModel.buttonsNumClickListener);
@@ -96,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonEq.setOnClickListener(calculatorModel.buttonEqClickListener);
 
 //        for (int i = 0; i < buttonsMemoryAct.length; i++) {
-//            buttonsMainAct[i].setOnClickListener(calculatorModel.buttonsMemoryActClickListener);
+//            buttonsMainAct[i].setOnClickListener(calculatorModel.mButtonsMemoryActionClickListener);
 //        }
     }
 
@@ -137,8 +145,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View v) {
+    protected void onSaveInstanceState(@NonNull Bundle state) {
+        super.onSaveInstanceState(state);
+        state.putString(KEY_MAIN_SCREEN, mTextView.getText().toString());
+        state.putString(KEY_EQUATION, mExpressionView.getText().toString());
+        Log.e(VALUE, "111. mInputStr: " + mTextView.getText()
+            + "\nmExpression: " + mExpressionView.getText());
     }
 
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        calculatorModel.setState(savedInstanceState.getString(KEY_EQUATION), savedInstanceState.getString(KEY_MAIN_SCREEN));
+        Log.e(VALUE, "112. mInputStr: " + savedInstanceState.getString(KEY_MAIN_SCREEN)
+                + "\nmExpression: " + savedInstanceState.getString(KEY_EQUATION));
+    }
+
+    @Override
+    public void onClick(View v) {
+    }
 
 }
