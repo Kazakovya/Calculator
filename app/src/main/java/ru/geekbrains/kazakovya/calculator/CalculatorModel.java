@@ -125,7 +125,6 @@ public class CalculatorModel {
                 + "\n" + "lastKeyIsEq: " + lastKeyIsEq(mExpression));
         if (mFirstNum == 0 || mLastKeyIsAction || lastKeyIsEq(mExpression)) {
             Log.e(VALUE, "019 set action: " + (String) ((Button) v).getText());
-//            Log.e(VALUE, "mInputStr: " + mInputStr);
             mFirstNum = sbToNum(new StringBuilder(mainScreen.getText()));
             mainScreen.setText(delExtraZero(mFirstNum));
             Log.e(VALUE, "020. set firstNum: " + mFirstNum);
