@@ -115,50 +115,73 @@ public class CalculatorModel {
     };
 
     View.OnClickListener buttonsMainActClickListener = v -> {
+//        String buttonTxt = (String) ((Button) v).getText();
+//        boolean buttonIsAct = buttonTxt.equals("+") || buttonTxt.equals("-") ||
+//                buttonTxt.equals("x") || buttonTxt.equals("÷");
+//        if (buttonIsAct){
+            Log.e(VALUE, "mFirstNum: " + mFirstNum);
+            Log.e(VALUE, "mInputStr: " + mInputStr);
+            Log.e(VALUE, "lastKeyIsEq: " + lastKeyIsEq(mExpression));
+            Log.e(VALUE, "018. set action: " + ((Button) v).getText()
+                    + "\n" + "mFirstNum == 0: " + (mFirstNum == 0)
+                    + "\n lastKeyIsAction: " + mLastKeyIsAction
+                    + "\n" + "lastKeyIsEq: " + lastKeyIsEq(mExpression));
+            if (mFirstNum == 0 || mLastKeyIsAction || lastKeyIsEq(mExpression)) {
+                Log.e(VALUE, "019 set action: " + (String) ((Button) v).getText());
+                mFirstNum = sbToNum(new StringBuilder(mainScreen.getText()));
+                mainScreen.setText(delExtraZero(mFirstNum));
+                Log.e(VALUE, "020. set firstNum: " + mFirstNum);
+                mSndNum = 0;
+                Log.e(VALUE, "021 set sndNum = 0: " + mSndNum);
+                mExpression = new StringBuilder(delExtraZero(mFirstNum).toString() + " " + ((Button) v).getText() + " ");
+                mLastAction = lastAction(mExpression);
+                Log.e(VALUE, "022. set expr str: " + mExpression);
 
-        Log.e(VALUE, "mFirstNum: " + mFirstNum);
-        Log.e(VALUE, "mInputStr: " + mInputStr);
-        Log.e(VALUE, "lastKeyIsEq: " + lastKeyIsEq(mExpression));
-        Log.e(VALUE, "018. set action: " + ((Button) v).getText()
-                + "\n" + "mFirstNum == 0: " + (mFirstNum == 0)
-                + "\n lastKeyIsAction: " + mLastKeyIsAction
-                + "\n" + "lastKeyIsEq: " + lastKeyIsEq(mExpression));
-        if (mFirstNum == 0 || mLastKeyIsAction || lastKeyIsEq(mExpression)) {
-            Log.e(VALUE, "019 set action: " + (String) ((Button) v).getText());
-            mFirstNum = sbToNum(new StringBuilder(mainScreen.getText()));
-            mainScreen.setText(delExtraZero(mFirstNum));
-            Log.e(VALUE, "020. set firstNum: " + mFirstNum);
-            mSndNum = 0;
-            Log.e(VALUE, "021 set sndNum = 0: " + mSndNum);
-            mExpression = new StringBuilder(delExtraZero(mFirstNum).toString() + " " + ((Button) v).getText() + " ");
-            mLastAction = lastAction(mExpression);
-            Log.e(VALUE, "022. set expr str: " + mExpression);
-
-            Log.e(VALUE, "023. save action: " + mLastAction);
-            readyToEnterNewNumber();
-            Log.e(VALUE, "024. del str: " + mInputStr);
-        } else {
-            if (mInputStr.length() > 0) mSndNum = sbToNum(mInputStr);
-            Log.e(VALUE, "025. set sndNum: " + mSndNum);
-            try {
-                mFirstNum = computation(mFirstNum, mSndNum, mExpression);
-                Log.e(VALUE, "026. computation: " + mFirstNum);
-            } catch (ArithmeticException e) {
-                mainScreen.setText("Деление на 0!");
-                Log.e(VALUE, "027. exception");
-                return;
+                Log.e(VALUE, "023. save action: " + mLastAction);
+                readyToEnterNewNumber();
+                Log.e(VALUE, "024. del str: " + mInputStr);
+            } else {
+                if (mInputStr.length() > 0) mSndNum = sbToNum(mInputStr);
+                Log.e(VALUE, "025. set sndNum: " + mSndNum);
+                try {
+                    mFirstNum = computation(mFirstNum, mSndNum, mExpression);
+                    Log.e(VALUE, "026. computation: " + mFirstNum);
+                } catch (ArithmeticException e) {
+                    mainScreen.setText("Деление на 0!");
+                    Log.e(VALUE, "027. exception");
+                    return;
+                }
+                mExpression = new StringBuilder(delExtraZero(mFirstNum).toString() + " " + (String) ((Button) v).getText() + " ");
+                mLastAction = lastAction(mExpression);
+                Log.e(VALUE, "028. set expr str: " + mExpression);
+                mainScreen.setText(delExtraZero(mFirstNum));
+                Log.e(VALUE, "029.1 set str: " + mFirstNum);
+                readyToEnterNewNumber();
+                Log.e(VALUE, "030. del str: " + mInputStr);
             }
-            mExpression = new StringBuilder(delExtraZero(mFirstNum).toString() + " " + (String) ((Button) v).getText() + " ");
-            mLastAction = lastAction(mExpression);
-            Log.e(VALUE, "028. set expr str: " + mExpression);
-            mainScreen.setText(delExtraZero(mFirstNum));
-            Log.e(VALUE, "029.1 set str: " + mFirstNum);
-            readyToEnterNewNumber();
-            Log.e(VALUE, "030. del str: " + mInputStr);
-        }
-        expressionScreen.setText(mExpression);
-        mLastKeyIsAction = true;
-        Log.e(VALUE, "031. set expr str: " + mExpression);
+            expressionScreen.setText(mExpression);
+            mLastKeyIsAction = true;
+            Log.e(VALUE, "031. set expr str: " + mExpression);
+//        } else {
+//            if (buttonTxt.equals("MC")) {
+//                mMemory = 0;
+//                Log.e(VALUE, "031.1 mMemory: " + mMemory);
+//                memoryScreen.setText("");
+//            } else if (buttonTxt.equals("MR")) {
+//                mInputStr = delExtraZero(mMemory);
+//                mainScreen.setText(mInputStr);
+//                Log.e(VALUE, "031.2 mMemory: " + mMemory);
+//                Log.e(VALUE, "031.3 mInputStr: " + mInputStr);
+//            } else if (buttonTxt.equals("M+")) {
+//                mMemory += sbToNum(mInputStr);
+//                if (mMemory != 0) memoryScreen.setText("M");
+//                Log.e(VALUE, "031.4 mMemory: " + mMemory);
+//            } else if (buttonTxt.equals("M-")) {
+//                mMemory -= sbToNum(mInputStr);
+//                if (mMemory != 0) memoryScreen.setText("M");
+//                Log.e(VALUE, "031.4 mMemory: " + mMemory);
+//            }
+//        }
     };
 
 

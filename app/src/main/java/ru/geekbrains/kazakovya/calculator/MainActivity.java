@@ -80,14 +80,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 buttonMinus,
                 buttonX,
                 buttonDiv,
-//                buttonEq
+//                buttonMR,
+//                buttonMC,
+//                buttonMPlus,
+//                buttonMMinus
         };
-        Button [] buttonsMemoryAct = new Button[] {
-                buttonMR,
-                buttonMC,
-                buttonMPlus,
-                buttonMMinus,
-        };
+//        Button [] buttonsMemoryAct = new Button[] {
+//                buttonMR,
+//                buttonMC,
+//                buttonMPlus,
+//                buttonMMinus
+//        };
 
         calculatorModel = new CalculatorModel(mTextView, mExpressionView, mMemMark);
 
