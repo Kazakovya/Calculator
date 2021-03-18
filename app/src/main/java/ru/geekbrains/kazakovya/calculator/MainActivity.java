@@ -16,9 +16,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final String VALUE = "Val";
     public static final String  KEY_MAIN_SCREEN = "MainScreen";
     public static final String  KEY_EQUATION = "Equation";
-//    public static final String  KEY_FIRST_ARG = "FirstArg";
-//    public static final String  KEY_SND_ARG = "FirstArg";
-//    public static final String  KEY_LASTACTION_ARG = "FirstArg";
+    public static final String  KEY_MEMORY = "Memory";
 
     static TextView mTextView;
     private TextView mExpressionView;
@@ -80,17 +78,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 buttonMinus,
                 buttonX,
                 buttonDiv,
-//                buttonMR,
-//                buttonMC,
-//                buttonMPlus,
-//                buttonMMinus
+                buttonMR,
+                buttonMC,
+                buttonMPlus,
+                buttonMMinus
         };
-//        Button [] buttonsMemoryAct = new Button[] {
-//                buttonMR,
-//                buttonMC,
-//                buttonMPlus,
-//                buttonMMinus
-//        };
 
         calculatorModel = new CalculatorModel(mTextView, mExpressionView, mMemMark);
 
@@ -102,17 +94,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             buttonsMainAct[i].setOnClickListener(calculatorModel.buttonsMainActClickListener);
         }
 
-//        for (int i = 0; i < buttonsMemoryAct.length; i++) {
-//            buttonsMemoryAct[i].setOnClickListener(calculatorModel.buttonsMemoryActClickListener);
-//        }
-
         buttonC.setOnClickListener(calculatorModel.buttonCClickListener);
 
         buttonEq.setOnClickListener(calculatorModel.buttonEqClickListener);
-
-//        for (int i = 0; i < buttonsMemoryAct.length; i++) {
-//            buttonsMainAct[i].setOnClickListener(calculatorModel.mButtonsMemoryActionClickListener);
-//        }
     }
 
     @Override
@@ -156,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onSaveInstanceState(state);
         state.putString(KEY_MAIN_SCREEN, mTextView.getText().toString());
         state.putString(KEY_EQUATION, mExpressionView.getText().toString());
+        state.putString(KEY_MEMORY, calculatorModel.getMemory());
         Log.e(VALUE, "111. mInputStr: " + mTextView.getText()
             + "\nmExpression: " + mExpressionView.getText());
     }
@@ -166,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         calculatorModel.setState(savedInstanceState.getString(KEY_EQUATION), savedInstanceState.getString(KEY_MAIN_SCREEN));
         Log.e(VALUE, "112. mInputStr: " + savedInstanceState.getString(KEY_MAIN_SCREEN)
                 + "\nmExpression: " + savedInstanceState.getString(KEY_EQUATION));
+        calculatorModel.setMemory(savedInstanceState.getString(KEY_MEMORY));
     }
 
     @Override

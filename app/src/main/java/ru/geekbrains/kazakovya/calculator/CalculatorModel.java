@@ -115,10 +115,10 @@ public class CalculatorModel {
     };
 
     View.OnClickListener buttonsMainActClickListener = v -> {
-//        String buttonTxt = (String) ((Button) v).getText();
-//        boolean buttonIsAct = buttonTxt.equals("+") || buttonTxt.equals("-") ||
-//                buttonTxt.equals("x") || buttonTxt.equals("÷");
-//        if (buttonIsAct){
+        String buttonTxt = (String) ((Button) v).getText();
+        boolean buttonIsAct = buttonTxt.equals("+") || buttonTxt.equals("-") ||
+                buttonTxt.equals("x") || buttonTxt.equals("÷");
+        if (buttonIsAct){
             Log.e(VALUE, "mFirstNum: " + mFirstNum);
             Log.e(VALUE, "mInputStr: " + mInputStr);
             Log.e(VALUE, "lastKeyIsEq: " + lastKeyIsEq(mExpression));
@@ -162,26 +162,35 @@ public class CalculatorModel {
             expressionScreen.setText(mExpression);
             mLastKeyIsAction = true;
             Log.e(VALUE, "031. set expr str: " + mExpression);
-//        } else {
-//            if (buttonTxt.equals("MC")) {
-//                mMemory = 0;
-//                Log.e(VALUE, "031.1 mMemory: " + mMemory);
-//                memoryScreen.setText("");
-//            } else if (buttonTxt.equals("MR")) {
-//                mInputStr = delExtraZero(mMemory);
-//                mainScreen.setText(mInputStr);
-//                Log.e(VALUE, "031.2 mMemory: " + mMemory);
-//                Log.e(VALUE, "031.3 mInputStr: " + mInputStr);
-//            } else if (buttonTxt.equals("M+")) {
-//                mMemory += sbToNum(mInputStr);
-//                if (mMemory != 0) memoryScreen.setText("M");
-//                Log.e(VALUE, "031.4 mMemory: " + mMemory);
-//            } else if (buttonTxt.equals("M-")) {
-//                mMemory -= sbToNum(mInputStr);
-//                if (mMemory != 0) memoryScreen.setText("M");
-//                Log.e(VALUE, "031.4 mMemory: " + mMemory);
-//            }
-//        }
+        } else {
+            if (buttonTxt.equals("MC")) {
+                memoryScreen.setText("");
+                mMemory = 0;
+                Log.e(VALUE, "031.1 mMemory: " + mMemory);
+            } else if (buttonTxt.equals("MR")) {
+                mInputStr = delExtraZero(mMemory);
+                mainScreen.setText(mInputStr);
+                mLastKeyIsAction = false;
+                Log.e(VALUE, "031.2 mMemory: " + mMemory);
+                Log.e(VALUE, "031.3 mInputStr: " + mInputStr);
+                if (lastKeyIsEq(mExpression)) {
+                    mExpression.setLength(0);
+                    expressionScreen.setText("");
+                } else if (mLastKeyIsAction) {
+
+                }
+            } else if (buttonTxt.equals("M+")) {
+                mMemory += sbToNum(new StringBuilder(mainScreen.getText()));
+                if (mMemory != 0) memoryScreen.setText("M");
+                Log.e(VALUE, "031.4 mMemory: " + mMemory);
+                readyToEnterNewNumber();
+            } else if (buttonTxt.equals("M-")) {
+                mMemory -= sbToNum(new StringBuilder(mainScreen.getText()));
+                if (mMemory != 0) memoryScreen.setText("M");
+                readyToEnterNewNumber();
+                Log.e(VALUE, "031.4 mMemory: " + mMemory);
+            }
+        }
     };
 
 
@@ -247,32 +256,6 @@ public class CalculatorModel {
         }
     }
 
-//    View.OnClickListener buttonsMemoryActClickListener = v -> {
-//        switch (v.getId()) {
-//            case R.id.buttonMC:
-//                mMemory = 0;
-//                Log.e(VALUE, "045.1 mMemory: " + mMemory);
-//                memoryScreen.setText("");
-//                break;
-//            case R.id.buttonMR:
-//                mInputStr = delExtraZero(mMemory);
-//                mainScreen.setText(mInputStr);
-//                Log.e(VALUE, "045.2 mMemory: " + mMemory);
-//                Log.e(VALUE, "045.3 mInputStr: " + mInputStr);
-//                break;
-//            case R.id.buttonMPlus:
-//                mMemory += sbToNum(mInputStr);
-//                if (mMemory != 0) memoryScreen.setText("M");
-//                Log.e(VALUE, "045.4 mMemory: " + mMemory);
-//                break;
-//            case R.id.buttonMMinus:
-//                mMemory -= sbToNum(mInputStr);
-//                if (mMemory != 0) memoryScreen.setText("M");
-//                Log.e(VALUE, "045.5 mMemory: " + mMemory);
-//                break;
-//        }
-//    };
-
     private void readyToEnterNewNumber (){
         mInputStr.setLength(0);
         Log.e(VALUE, "046. readyToEnterNewNumber: " + mInputStr.length());
@@ -280,28 +263,6 @@ public class CalculatorModel {
         mIsInteger = true;
         mIsPositive = true;
     }
-
-//    public void buttonsMemoryActClicked (View v) {
-//        switch (v.getId()) {
-//            case R.id.buttonMC:
-//                mMemory = 0;
-//                memoryScreen.setText("");
-//                break;
-//            case R.id.buttonMR:
-//                mInputStr = delExtraZero(mMemory);
-//                mainScreen.setText(mInputStr);
-//                mCanEdit = false;
-//                break;
-//            case R.id.buttonMPlus:
-//                mMemory += sbToNum(mInputStr);
-//                if (mMemory != 0) memoryScreen.setText("M");
-//                break;
-//            case R.id.buttonMMinus:
-//                mMemory -= sbToNum(mInputStr);
-//                if (mMemory != 0) memoryScreen.setText("M");
-//                break;
-//        }
-//    };
 
     private double sbToNum (StringBuilder sbNum) {
         if (sbNum.length() == 0) {
@@ -312,31 +273,6 @@ public class CalculatorModel {
                 + "\n sbNum: " + sbNum);
         return Double.valueOf(sbNum.toString());
     }
-
-//    View.OnClickListener mButtonsMemoryActionClickListener = new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//            switch (v.getId()) {
-//                case R.id.buttonMC:
-//                    mMemory = 0;
-//                    memoryScreen.setText("");
-//                    break;
-//                case R.id.buttonMR:
-//                    mInputStr = delExtraZero(mMemory);
-//                    mainScreen.setText(mInputStr);
-////                mCanEdit = false;
-//                    break;
-//                case R.id.buttonMPlus:
-//                    mMemory += sbToNum(mInputStr);
-//                    if (mMemory != 0) memoryScreen.setText("M");
-//                    break;
-//                case R.id.buttonMMinus:
-//                    mMemory -= sbToNum(mInputStr);
-//                    if (mMemory != 0) memoryScreen.setText("M");
-//                    break;
-//            }
-//        }
-//    };
 
     private double computation (double mFirstArg, double mSndArg, StringBuilder expression) throws ArithmeticException {
         mLastAction = lastAction(expression);
@@ -462,6 +398,15 @@ public class CalculatorModel {
             }
         }
 
+    }
+
+    public String getMemory () {
+        return String.valueOf(mMemory);
+    }
+
+    public void setMemory(String memoryStr) {
+        mMemory = Double.parseDouble(memoryStr);
+        if (mMemory != 0) memoryScreen.setText("M");
     }
 }
 
