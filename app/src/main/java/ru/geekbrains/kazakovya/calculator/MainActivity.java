@@ -11,16 +11,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    public static final int CAPASITY = 8;
+    public static final int CAPACITY = 8;
     public static final String MY_TAG = "Lifecicle";
     public static final String VALUE = "Val";
     public static final String  KEY_MAIN_SCREEN = "MainScreen";
     public static final String  KEY_EQUATION = "Equation";
     public static final String  KEY_MEMORY = "Memory";
 
-    static TextView mTextView;
+    private TextView mTextView;
     private TextView mExpressionView;
-    private TextView mMemMark;
     private CalculatorModel calculatorModel;
 
     @Override
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button buttonPosNeg = findViewById(R.id.buttonPosNeg);
         mTextView = findViewById(R.id.inputStr);
         mExpressionView = findViewById(R.id.phrase);
-        mMemMark = findViewById(R.id.memMark);
+        TextView mMemMark = findViewById(R.id.memMark);
 
         Button [] buttonsNum = new Button[] {
                 button0,
@@ -86,12 +85,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         calculatorModel = new CalculatorModel(mTextView, mExpressionView, mMemMark);
 
-        for (int i = 0; i < buttonsNum.length; i++) {
-            buttonsNum[i].setOnClickListener(calculatorModel.buttonsNumClickListener);
+        for (Button button : buttonsNum) {
+            button.setOnClickListener(calculatorModel.buttonsNumClickListener);
         }
 
-        for (int i = 0; i < buttonsMainAct.length; i++) {
-            buttonsMainAct[i].setOnClickListener(calculatorModel.buttonsMainActClickListener);
+        for (Button button : buttonsMainAct) {
+            button.setOnClickListener(calculatorModel.buttonsMainActClickListener);
         }
 
         buttonC.setOnClickListener(calculatorModel.buttonCClickListener);
@@ -141,16 +140,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         state.putString(KEY_MAIN_SCREEN, mTextView.getText().toString());
         state.putString(KEY_EQUATION, mExpressionView.getText().toString());
         state.putString(KEY_MEMORY, calculatorModel.getMemory());
-        Log.e(VALUE, "111. mInputStr: " + mTextView.getText()
-            + "\nmExpression: " + mExpressionView.getText());
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         calculatorModel.setState(savedInstanceState.getString(KEY_EQUATION), savedInstanceState.getString(KEY_MAIN_SCREEN));
-        Log.e(VALUE, "112. mInputStr: " + savedInstanceState.getString(KEY_MAIN_SCREEN)
-                + "\nmExpression: " + savedInstanceState.getString(KEY_EQUATION));
         calculatorModel.setMemory(savedInstanceState.getString(KEY_MEMORY));
     }
 

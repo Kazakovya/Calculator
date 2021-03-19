@@ -22,7 +22,7 @@ public class CalculatorModel {
 
     private StringBuilder mExpression = new StringBuilder();
     private StringBuilder mInputStr = new StringBuilder("0");
-    private int trueCapasity = MainActivity.CAPASITY;
+    private int trueCapacity = MainActivity.CAPACITY;
     private double mFirstNum = 0;
     private double mSndNum = 0;
     private boolean mIsInteger = true;
@@ -48,7 +48,7 @@ public class CalculatorModel {
             switch (v.getId()) {
                 case R.id.buttonPt:
                     mInputStr = new StringBuilder("0.");
-                    trueCapasity++;
+                    trueCapacity++;
                     mIsInteger = false;
                     mainScreen.setText(mInputStr);
                     Log.e(VALUE, "005. str = 0.");
@@ -65,14 +65,14 @@ public class CalculatorModel {
         } else if (v.getId() == R.id.buttonBack) {
             if (!mIsPositive && mInputStr.length() == 2) {
                 mInputStr.deleteCharAt(0);
-                trueCapasity--;
+                trueCapacity--;
                 mIsPositive = true;
                 mainScreen.setText(mInputStr);
                 Log.e(VALUE, "007. set positive num " + mInputStr);
                 return;
             } else  if (mInputStr.charAt(mInputStr.length()-1) == '.') {
                 mIsInteger = true;
-                trueCapasity--;
+                trueCapacity--;
                 Log.e(VALUE, "008. set int num");
             }
             if (mInputStr.length() == 1) {
@@ -87,23 +87,23 @@ public class CalculatorModel {
         } else if (v.getId() == R.id.buttonPosNeg) {
             if (sbToNum(mInputStr) > 0) {
                 mIsPositive = false;
-                trueCapasity ++;
+                trueCapacity++;
                 Log.e(VALUE, "011. num < 0: " + mInputStr);
             } else {
                 mIsPositive = true;
-                trueCapasity --;
+                trueCapacity--;
                 Log.e(VALUE, "012. num > 0: " + mInputStr);
             }
             mInputStr = new StringBuilder(delExtraZero(sbToNum(mInputStr) * (-1)));
             mainScreen.setText(mInputStr);
             Log.e(VALUE, "013. set str: " + mInputStr);
-        } else if (mInputStr.length() < trueCapasity) {
+        } else if (mInputStr.length() < trueCapacity) {
             Log.e(VALUE, "014. str is not full: " + mInputStr);
 
             if (v.getId() == R.id.buttonPt) {
                 Log.e(VALUE, "015. press Pt: " + mInputStr);
                 if (mIsInteger) {
-                    trueCapasity++;
+                    trueCapacity++;
                     mIsInteger = false;
                     Log.e(VALUE, "016. add Pt: " + mInputStr);
                 }
@@ -117,7 +117,7 @@ public class CalculatorModel {
     View.OnClickListener buttonsMainActClickListener = v -> {
         String buttonTxt = (String) ((Button) v).getText();
         boolean buttonIsAct = buttonTxt.equals("+") || buttonTxt.equals("-") ||
-                buttonTxt.equals("x") || buttonTxt.equals("÷");
+                buttonTxt.equals("×") || buttonTxt.equals("÷");
         if (buttonIsAct){
             Log.e(VALUE, "mFirstNum: " + mFirstNum);
             Log.e(VALUE, "mInputStr: " + mInputStr);
@@ -161,38 +161,40 @@ public class CalculatorModel {
             }
             expressionScreen.setText(mExpression);
             mLastKeyIsAction = true;
-            Log.e(VALUE, "031. set expr str: " + mExpression);
+            Log.e(VALUE, "031.0 set expr str: " + mExpression);
         } else {
-            if (buttonTxt.equals("MC")) {
-                memoryScreen.setText("");
-                mMemory = 0;
-                Log.e(VALUE, "031.1 mMemory: " + mMemory);
-            } else if (buttonTxt.equals("MR")) {
-                mInputStr = delExtraZero(mMemory);
-                mainScreen.setText(mInputStr);
-                mLastKeyIsAction = false;
-                Log.e(VALUE, "031.2 mMemory: " + mMemory);
-                Log.e(VALUE, "031.3 mInputStr: " + mInputStr);
-                if (lastKeyIsEq(mExpression)) {
-                    mExpression.setLength(0);
-                    expressionScreen.setText("");
-                } else if (mLastKeyIsAction) {
-
-                }
-            } else if (buttonTxt.equals("M+")) {
-                mMemory += sbToNum(new StringBuilder(mainScreen.getText()));
-                if (mMemory != 0) memoryScreen.setText("M");
-                Log.e(VALUE, "031.4 mMemory: " + mMemory);
-                readyToEnterNewNumber();
-            } else if (buttonTxt.equals("M-")) {
-                mMemory -= sbToNum(new StringBuilder(mainScreen.getText()));
-                if (mMemory != 0) memoryScreen.setText("M");
-                readyToEnterNewNumber();
-                Log.e(VALUE, "031.4 mMemory: " + mMemory);
+            switch (buttonTxt) {
+                case "MC":
+                    memoryScreen.setText("");
+                    mMemory = 0;
+                    Log.e(VALUE, "031.1 mMemory: " + mMemory);
+                    break;
+                case "MR":
+                    mInputStr = delExtraZero(mMemory);
+                    mainScreen.setText(mInputStr);
+                    mLastKeyIsAction = false;
+                    Log.e(VALUE, "031.2 mMemory: " + mMemory);
+                    Log.e(VALUE, "031.3 mInputStr: " + mInputStr);
+                    if (lastKeyIsEq(mExpression)) {
+                        mExpression.setLength(0);
+                        expressionScreen.setText("");
+                    }
+                    break;
+                case "M+":
+                    mMemory += sbToNum(new StringBuilder(mainScreen.getText()));
+                    if (mMemory != 0) memoryScreen.setText("M");
+                    Log.e(VALUE, "031.4 mMemory: " + mMemory);
+                    readyToEnterNewNumber();
+                    break;
+                case "M-":
+                    mMemory -= sbToNum(new StringBuilder(mainScreen.getText()));
+                    if (mMemory != 0) memoryScreen.setText("M");
+                    readyToEnterNewNumber();
+                    Log.e(VALUE, "031.5 mMemory: " + mMemory);
+                    break;
             }
         }
     };
-
 
     View.OnClickListener buttonCClickListener = v -> {
         Log.e(VALUE, "032. reset");
@@ -259,7 +261,7 @@ public class CalculatorModel {
     private void readyToEnterNewNumber (){
         mInputStr.setLength(0);
         Log.e(VALUE, "046. readyToEnterNewNumber: " + mInputStr.length());
-        trueCapasity = MainActivity.CAPASITY;
+        trueCapacity = MainActivity.CAPACITY;
         mIsInteger = true;
         mIsPositive = true;
     }
@@ -271,24 +273,25 @@ public class CalculatorModel {
         }
         Log.e(VALUE, "048. sbToNum: " + Double.valueOf(sbNum.toString())
                 + "\n sbNum: " + sbNum);
-        return Double.valueOf(sbNum.toString());
+        return Double.parseDouble(sbNum.toString());
     }
 
     private double computation (double mFirstArg, double mSndArg, StringBuilder expression) throws ArithmeticException {
         mLastAction = lastAction(expression);
         Log.e(VALUE, "049. mLastAction: " + mLastAction);
-        if (mLastAction.equals("+")) {
-            Log.e(VALUE, "050. mLastAction: +");
-            return mFirstArg + mSndArg;
-        } else if (mLastAction.equals("-")) {
-            Log.e(VALUE, "051. mLastAction: -");
-            return mFirstArg - mSndArg;
-        } else if (mLastAction.equals("×")) {
-            Log.e(VALUE, "052. mLastAction: x");
-            return mFirstArg * mSndArg;
-        } else if (mLastAction.equals("÷")) {
-            Log.e(VALUE, "053. mLastAction: /");
-            return mFirstArg / mSndArg;
+        switch (mLastAction) {
+            case "+":
+                Log.e(VALUE, "050. mLastAction: +");
+                return mFirstArg + mSndArg;
+            case "-":
+                Log.e(VALUE, "051. mLastAction: -");
+                return mFirstArg - mSndArg;
+            case "×":
+                Log.e(VALUE, "052. mLastAction: x");
+                return mFirstArg * mSndArg;
+            case "÷":
+                Log.e(VALUE, "053. mLastAction: /");
+                return mFirstArg / mSndArg;
         }
         Log.e(VALUE, "054. result: " + 0);
         return 0;
@@ -323,7 +326,7 @@ public class CalculatorModel {
         Log.e(VALUE, "061. reset");
         mExpression.setLength(0);
         mInputStr.setLength(0);
-        trueCapasity = MainActivity.CAPASITY;
+        trueCapacity = MainActivity.CAPACITY;
         mIsInteger = true;
         mIsPositive = true;
         expressionScreen.setText("");
@@ -337,14 +340,15 @@ public class CalculatorModel {
         expressionScreen.setText(mExpression);
         mInputStr = new StringBuilder(inputStr);
         mainScreen.setText(mInputStr);
+        trueCapacity = MainActivity.CAPACITY;
         Log.e(VALUE, "62. expression: " + mExpression);
         if (inputStr.toString().contains(".")) {
-            trueCapasity++;
+            trueCapacity++;
             mIsInteger = false;
         }
         if (mInputStr.charAt(0) == '-') {
-            trueCapasity ++;
-            mIsPositive = true;
+            trueCapacity++;
+            mIsPositive = false;
         }
         if (mExpression.length() == 0) {
             Log.e(VALUE, "63. expression: null" + mExpression);
@@ -355,46 +359,39 @@ public class CalculatorModel {
         Log.e(VALUE, "064. (expression.toString().split(\" \") [0]): " + (mExpression.toString().split(" ") [0])
                 + "\n mFirstNum: " + Integer.parseInt(mExpression.toString().split(" ") [0]));
             mFirstNum = Integer.parseInt(mExpression.toString().split(" ") [0]);
-            if (mExpression.toString().indexOf(" ") < 0) {
-                Log.e(VALUE, "65. mLastAction: null" + mLastAction);
-                mLastAction = null;
-                mLastKeyIsAction = false;
-                mSndNum = 0;
-            } else {
-                mLastAction = lastAction(mExpression);
-                Log.e(VALUE, "66. mLastAction: " + mLastAction);
-                mLastKeyIsAction = true;
-                int firstSpace = mExpression.toString().indexOf(" ");
-                Log.e(VALUE, "67. firstSpace: " + firstSpace);
-                int n = 1;
-                if (expressionStr.contains("=")) n = 2;
-                Log.e(VALUE, "68. n: " + n);
+            mLastAction = lastAction(mExpression);
+            Log.e(VALUE, "65. mLastAction: " + mLastAction);
+            mLastKeyIsAction = true;
+            int firstSpace = mExpression.toString().indexOf(" ");
+            Log.e(VALUE, "66. firstSpace: " + firstSpace);
+            int n = 1;
+            if (expressionStr.contains("=")) n = 2;
+            Log.e(VALUE, "67. n: " + n);
 
-                String substr = mExpression.toString().substring(firstSpace + 2, (mExpression.toString().length() - n));
-                Log.e(VALUE, "69. substr: " + substr
-                                + "\n substr.length():" + substr.length() + "!");
-                if ((substr.length()) == 0) {
-                    if (Math.abs(mFirstNum - sbToNum(mInputStr)) < 0.0000001) {
-                        readyToEnterNewNumber();
-                        mSndNum = 0;
-                    } else {
-                        mLastKeyIsAction = false;
-                        if (mInputStr.charAt(0) == '-') {
-                            trueCapasity ++;
-                            mIsPositive = true;
-                        }
-                        if (mInputStr.toString().contains(".")) {
-                            trueCapasity++;
-                            mIsInteger = false;
-                        }
-                    }
-                } else {
-                    mSndNum = Double.parseDouble(substr);
-                    mFirstNum = sbToNum(mInputStr);
-                    Log.e(VALUE, "70. mSndNum: " + mSndNum);
-                    mLastKeyIsAction = false;
+            String substr = mExpression.toString().substring(firstSpace + 2, (mExpression.toString().length() - n));
+            Log.e(VALUE, "68. substr: " + substr
+                            + "\n substr.length():" + substr.length() + "!");
+            if ((substr.length()) == 0) {
+                if (Math.abs(mFirstNum - sbToNum(mInputStr)) < 0.0000001) {
                     readyToEnterNewNumber();
+                    mSndNum = 0;
+                } else {
+                    mLastKeyIsAction = false;
+                    if (mInputStr.charAt(0) == '-') {
+                        trueCapacity++;
+                        mIsPositive = true;
                     }
+                    if (mInputStr.toString().contains(".")) {
+                        trueCapacity++;
+                        mIsInteger = false;
+                    }
+                }
+            } else {
+                mSndNum = Double.parseDouble(substr);
+                mFirstNum = sbToNum(mInputStr);
+                Log.e(VALUE, "69. mSndNum: " + mSndNum);
+                mLastKeyIsAction = false;
+                readyToEnterNewNumber();
             }
         }
 
