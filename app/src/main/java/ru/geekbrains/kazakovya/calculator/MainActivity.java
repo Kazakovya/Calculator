@@ -2,7 +2,11 @@ package ru.geekbrains.kazakovya.calculator;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
@@ -17,10 +21,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final String  KEY_MAIN_SCREEN = "MainScreen";
     public static final String  KEY_EQUATION = "Equation";
     public static final String  KEY_MEMORY = "Memory";
+    public static final String MY_PREFERENCES = "nightModePreferences";
+    public static final String KEY_NIGHT_MODE = "nightMode";
+    SharedPreferences sharedPreferences;
 
     private TextView mTextView;
     private TextView mExpressionView;
     private CalculatorModel calculatorModel;
+    SwitchCompat changeTheme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mTextView = findViewById(R.id.inputStr);
         mExpressionView = findViewById(R.id.phrase);
         TextView mMemMark = findViewById(R.id.memMark);
+        changeTheme = findViewById(R.id.change_theme);
+
 
         Button [] buttonsNum = new Button[] {
                 button0,
@@ -83,6 +93,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 buttonMMinus
         };
 
+        sharedPreferences = getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
+
+        checkNightModeActivated();
+
+        changeTheme.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                saveNightModeState(true);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                saveNightModeState(false);
+            }
+            recreate();
+        });
+
         calculatorModel = new CalculatorModel(mTextView, mExpressionView, mMemMark);
 
         for (Button button : buttonsNum) {
@@ -96,6 +121,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonC.setOnClickListener(calculatorModel.buttonCClickListener);
 
         buttonEq.setOnClickListener(calculatorModel.buttonEqClickListener);
+    }
+
+    private void saveNightModeState(boolean nightMode) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(KEY_NIGHT_MODE, nightMode).apply();
+    }
+
+    public void checkNightModeActivated() {
+        if (sharedPreferences.getBoolean(KEY_NIGHT_MODE, false)) {
+            changeTheme.setChecked(true);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            changeTheme.setChecked(false);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     @Override

@@ -9,6 +9,7 @@
     <dimen name="margin_start">4sp</dimen>
     <dimen name="margin_end">4sp</dimen>
     <dimen name="margin_bottom">6sp</dimen>
+    <dimen name="margin_bottom_settings">40sp</dimen>
     <dimen name="margin_Top">8sp</dimen>
     <dimen name="padding">8sp</dimen>
     <dimen name="button_text_size">28sp</dimen>
