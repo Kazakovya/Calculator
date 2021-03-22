@@ -143,14 +143,15 @@ public class CalculatorModel {
             } else {
                 if (mInputStr.length() > 0) mSndNum = sbToNum(mInputStr);
                 Log.e(VALUE, "025. set sndNum: " + mSndNum);
-                try {
-                    mFirstNum = computation(mFirstNum, mSndNum, mExpression);
-                    Log.e(VALUE, "026. computation: " + mFirstNum);
-                } catch (ArithmeticException e) {
+                if (lastAction(mExpression).equals("÷") && mSndNum == 0) {
+                    mInputStr.setLength(0);
                     mainScreen.setText("Деление на 0!");
                     Log.e(VALUE, "027. exception");
                     return;
-                }
+                } else mFirstNum = computation(mFirstNum, mSndNum, mExpression);
+                Log.e(VALUE, "026. computation: " + mFirstNum
+                                +"\n mainScreen.getText().toString(): " + mainScreen.getText().toString()
+                                +"\n mainScreen.getText().toString().equals(\"Infinity\"): " + mainScreen.getText().toString().equals("Infinity"));
                 mExpression = new StringBuilder(delExtraZero(mFirstNum).toString() + " " + (String) ((Button) v).getText() + " ");
                 mLastAction = lastAction(mExpression);
                 Log.e(VALUE, "028. set expr str: " + mExpression);
@@ -215,17 +216,18 @@ public class CalculatorModel {
             if (mInputStr.length() > 0) mSndNum = sbToNum(mInputStr);
             Log.e(VALUE, "036. set sndnum: " + mSndNum);
         }
-        mExpression = new StringBuilder(delExtraZero(mFirstNum) + " " + mLastAction + " " + delExtraZero(mSndNum) + " =");
+        if (mSndNum < 0) {
+            mExpression = new StringBuilder(delExtraZero(mFirstNum) + " " + mLastAction + " (" + delExtraZero(mSndNum) + ") =");
+        } else mExpression = new StringBuilder(delExtraZero(mFirstNum) + " " + mLastAction + " " + delExtraZero(mSndNum) + " =");
         expressionScreen.setText(mExpression);
-        try {
-            mFirstNum = computation(mFirstNum, mSndNum, mExpression);
-            Log.e(VALUE, "037. computation: " + mFirstNum);
-        } catch (ArithmeticException e) {
-            mainScreen.setText("Деление на 0!");
+        if (lastAction(mExpression).equals("÷") && mSndNum == 0) {
             mInputStr.setLength(0);
-            Log.e(VALUE, "038. exception: ");
+            mainScreen.setText("Деление на 0!");
+            Log.e(VALUE, "037. exception");
+            mExpression = new StringBuilder(delExtraZero(mFirstNum) + " " + mLastAction + " ");
+            expressionScreen.setText(mExpression);
             return;
-        }
+        } else mFirstNum = computation(mFirstNum, mSndNum, mExpression);
         Log.e(VALUE, "039. set expr str: " + mExpression);
         mInputStr = new StringBuilder(delExtraZero(mFirstNum));
         mainScreen.setText(mInputStr);
@@ -276,7 +278,7 @@ public class CalculatorModel {
         return Double.parseDouble(sbNum.toString());
     }
 
-    private double computation (double mFirstArg, double mSndArg, StringBuilder expression) throws ArithmeticException {
+    private double computation (double mFirstArg, double mSndArg, StringBuilder expression) {
         mLastAction = lastAction(expression);
         Log.e(VALUE, "049. mLastAction: " + mLastAction);
         switch (mLastAction) {
@@ -397,12 +399,12 @@ public class CalculatorModel {
 
     }
 
-    public String getMemory () {
-        return String.valueOf(mMemory);
+    public double getMemory () {
+        return mMemory;
     }
 
-    public void setMemory(String memoryStr) {
-        mMemory = Double.parseDouble(memoryStr);
+    public void setMemory(double memory) {
+        mMemory = memory;
         if (mMemory != 0) memoryScreen.setText("M");
     }
 }

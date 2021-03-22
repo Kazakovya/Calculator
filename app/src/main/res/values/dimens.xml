@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="small_buttons_height">60sp</dimen>
+    <dimen name="text_view_height">60sp</dimen>
+    <dimen name="big_buttons_height">120sp</dimen>
+    <dimen name="small_buttons_width">68sp</dimen>
+    <dimen name="big_buttons_width">140sp</dimen>
+    <dimen name="margin_start">4sp</dimen>
+    <dimen name="margin_end">4sp</dimen>
+    <dimen name="margin_bottom">6sp</dimen>
+    <dimen name="margin_Top">8sp</dimen>
+    <dimen name="padding">8sp</dimen>
+    <dimen name="button_text_size">28sp</dimen>
+    <dimen name="exprission_text_size">30sp</dimen>
+    <dimen name="main_screen_text_size">30sp</dimen>
+    <dimen name="memory_mark_text_size">36sp</dimen>
+
+
+</resources>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar.Bridge"/>
+    
+    <style name="numButtons">
+        <item name="android:layout_width">@dimen/small_buttons_width</item>
+        <item name="android:layout_height">@dimen/small_buttons_height</item>
+        <item name="android:backgroundTint">@color/numButtons</item>
+        <item name="android:layout_marginStart">@dimen/margin_start</item>
+        <item name="android:layout_marginEnd">@dimen/margin_end</item>
+        <item name="android:textSize">@dimen/button_text_size</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="actButtons">
+        <item name="android:layout_width">@dimen/small_buttons_width</item>
+        <item name="android:layout_height">@dimen/small_buttons_height</item>
+        <item name="android:backgroundTint">@color/actButtons</item>
+        <item name="android:layout_marginStart">@dimen/margin_start</item>
+        <item name="android:layout_marginEnd">@dimen/margin_end</item>
+        <item name="android:textSize">@dimen/button_text_size</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+    </style>
+</resources>
