@@ -23,13 +23,13 @@ public class CalculatorModel {
     private StringBuilder mExpression = new StringBuilder();
     private StringBuilder mInputStr = new StringBuilder("0");
     private int trueCapacity = MainActivity.CAPACITY;
-    private double mFirstNum = 0;
-    private double mSndNum = 0;
+    private float mFirstNum = 0;
+    private float mSndNum = 0;
     private boolean mIsInteger = true;
     private boolean mIsPositive = true;
     private String mLastAction = null;
     private boolean mLastKeyIsAction = true;
-    private double mMemory = 0;
+    private float mMemory = 0;
 
     View.OnClickListener buttonsNumClickListener = v -> {
         Log.e(VALUE, "001. press num");
@@ -149,6 +149,10 @@ public class CalculatorModel {
                     Log.e(VALUE, "027. exception");
                     return;
                 } else mFirstNum = computation(mFirstNum, mSndNum, mExpression);
+                if (Float.isInfinite(mFirstNum)) {
+                    mainScreen.setText("Переполнение!");
+                    return;
+                }
                 Log.e(VALUE, "026. computation: " + mFirstNum
                                 +"\n mainScreen.getText().toString(): " + mainScreen.getText().toString()
                                 +"\n mainScreen.getText().toString().equals(\"Infinity\"): " + mainScreen.getText().toString().equals("Infinity"));
@@ -228,6 +232,10 @@ public class CalculatorModel {
             expressionScreen.setText(mExpression);
             return;
         } else mFirstNum = computation(mFirstNum, mSndNum, mExpression);
+        if (Float.isInfinite(mFirstNum)) {
+            mainScreen.setText("Переполнение!");
+            return;
+        }
         Log.e(VALUE, "039. set expr str: " + mExpression);
         mInputStr = new StringBuilder(delExtraZero(mFirstNum));
         mainScreen.setText(mInputStr);
@@ -268,17 +276,17 @@ public class CalculatorModel {
         mIsPositive = true;
     }
 
-    private double sbToNum (StringBuilder sbNum) {
+    private float sbToNum (StringBuilder sbNum) {
         if (sbNum.length() == 0) {
             Log.e(VALUE, "047. sbToNum = 0: " + sbNum);
             return  0;
         }
-        Log.e(VALUE, "048. sbToNum: " + Double.valueOf(sbNum.toString())
+        Log.e(VALUE, "048. sbToNum: " + Float.valueOf(sbNum.toString())
                 + "\n sbNum: " + sbNum);
-        return Double.parseDouble(sbNum.toString());
+        return Float.parseFloat(sbNum.toString());
     }
 
-    private double computation (double mFirstArg, double mSndArg, StringBuilder expression) {
+    private float computation (float mFirstArg, float mSndArg, StringBuilder expression) {
         mLastAction = lastAction(expression);
         Log.e(VALUE, "049. mLastAction: " + mLastAction);
         switch (mLastAction) {
@@ -299,8 +307,8 @@ public class CalculatorModel {
         return 0;
     }
 
-    private  StringBuilder delExtraZero (double d) {
-        StringBuilder sb = new StringBuilder(String.valueOf(d));
+    private  StringBuilder delExtraZero (float f) {
+        StringBuilder sb = new StringBuilder(String.valueOf(f));
         Log.e(VALUE, "055. sb: " + sb);
         for (int i = 0; i < sb.length()-2; i++) {
             Log.e(VALUE, "056. sb.length(): " + (sb.length()-1-i)
@@ -389,7 +397,7 @@ public class CalculatorModel {
                     }
                 }
             } else {
-                mSndNum = Double.parseDouble(substr);
+                mSndNum = Float.parseFloat(substr);
                 mFirstNum = sbToNum(mInputStr);
                 Log.e(VALUE, "69. mSndNum: " + mSndNum);
                 mLastKeyIsAction = false;
@@ -399,11 +407,11 @@ public class CalculatorModel {
 
     }
 
-    public double getMemory () {
+    public float getMemory () {
         return mMemory;
     }
 
-    public void setMemory(double memory) {
+    public void setMemory(float memory) {
         mMemory = memory;
         if (mMemory != 0) memoryScreen.setText("M");
     }

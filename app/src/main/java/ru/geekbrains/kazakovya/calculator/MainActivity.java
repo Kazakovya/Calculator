@@ -139,14 +139,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onSaveInstanceState(state);
         state.putString(KEY_MAIN_SCREEN, mTextView.getText().toString());
         state.putString(KEY_EQUATION, mExpressionView.getText().toString());
-        state.putDouble(KEY_MEMORY, calculatorModel.getMemory());
+        state.putFloat(KEY_MEMORY, (float) calculatorModel.getMemory());
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         calculatorModel.setState(savedInstanceState.getString(KEY_EQUATION), savedInstanceState.getString(KEY_MAIN_SCREEN));
-        calculatorModel.setMemory(savedInstanceState.getDouble(KEY_MEMORY));
+        calculatorModel.setMemory(savedInstanceState.getFloat(KEY_MEMORY));
     }
 
     @Override
