@@ -20,7 +20,9 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:backgroundTint="@color/settings"
-        android:text="@string/settings"/>
+        android:text="@string/settings"
+        android:textSize="@dimen/button_text_size"
+        android:textColor="@color/white"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,21 +30,22 @@
         android:orientation="vertical"
         android:background="@color/textView">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/phrase"
             android:layout_width="match_parent"
             android:layout_height="@dimen/text_view_height"
             android:layout_gravity="right"
             android:clickable="false"
             android:gravity="center_vertical|right"
-            android:textSize="@dimen/exprission_text_size" />
+            android:textSize="@dimen/exprission_text_size"
+            android:textColor="@color/white"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/text_view_height"
             android:orientation="horizontal">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/memMark"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -50,9 +53,10 @@
                 android:clickable="false"
                 android:ems="2"
                 android:gravity="center_vertical|left"
-                android:textSize="@dimen/main_screen_text_size" />
+                android:textSize="@dimen/main_screen_text_size"
+                android:textColor="@color/white"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/inputStr"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -60,7 +64,8 @@
                 android:clickable="false"
                 android:gravity="center_vertical|right"
                 android:text="@string/inputStr"
-                android:textSize="@dimen/memory_mark_text_size" />
+                android:textSize="@dimen/memory_mark_text_size"
+                android:textColor="@color/white"/>
 
         </LinearLayout>
         

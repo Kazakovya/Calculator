@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -35,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.e(MY_TAG, "onCreate(): " + (savedInstanceState == null ? "first" : "next"));
 
         Button button0 = findViewById(R.id.button0);
         Button button1 = findViewById(R.id.button1);
@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button buttonC = findViewById(R.id.buttonC);
         Button buttonBack = findViewById(R.id.buttonBack);
         Button buttonPosNeg = findViewById(R.id.buttonPosNeg);
+        Button settings = findViewById(R.id.settings);
         mTextView = findViewById(R.id.inputStr);
         mExpressionView = findViewById(R.id.phrase);
         TextView mMemMark = findViewById(R.id.memMark);
@@ -95,7 +96,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         sharedPreferences = getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
 
-        checkNightModeActivated();
+
+        Log.e(MY_TAG, "onCreate(): " + (savedInstanceState == null ? "first" : "next"));
 
         changeTheme.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -121,21 +123,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonC.setOnClickListener(calculatorModel.buttonCClickListener);
 
         buttonEq.setOnClickListener(calculatorModel.buttonEqClickListener);
-    }
 
-    private void saveNightModeState(boolean nightMode) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(KEY_NIGHT_MODE, nightMode).apply();
-    }
-
-    public void checkNightModeActivated() {
-        if (sharedPreferences.getBoolean(KEY_NIGHT_MODE, false)) {
-            changeTheme.setChecked(true);
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            changeTheme.setChecked(false);
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
+        settings.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivityForResult(intent, RESULT_OK);
+        });
+        checkNightModeActivated();
     }
 
     @Override
@@ -193,4 +186,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
     }
 
+    public void checkNightModeActivated() {
+        if (sharedPreferences.getBoolean(KEY_NIGHT_MODE, false)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode != RESULT_CANCELED) {
+            super.onActivityResult(requestCode, resultCode, data);
+        } else if (resultCode == RESULT_OK) {
+            saveNightModeState(data.getExtras().getBoolean(KEY_NIGHT_MODE));
+            recreate();
+        }
+    }
+
+    private void saveNightModeState(boolean nightMode) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(KEY_NIGHT_MODE, nightMode).apply();
+    }
 }
