@@ -11,18 +11,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    public static final int CAPASITY = 8;
+    public static final int CAPACITY = 8;
     public static final String MY_TAG = "Lifecicle";
     public static final String VALUE = "Val";
     public static final String  KEY_MAIN_SCREEN = "MainScreen";
     public static final String  KEY_EQUATION = "Equation";
-//    public static final String  KEY_FIRST_ARG = "FirstArg";
-//    public static final String  KEY_SND_ARG = "FirstArg";
-//    public static final String  KEY_LASTACTION_ARG = "FirstArg";
+    public static final String  KEY_MEMORY = "Memory";
 
-    static TextView mTextView;
+    private TextView mTextView;
     private TextView mExpressionView;
-    private TextView mMemMark;
     private CalculatorModel calculatorModel;
 
     @Override
@@ -57,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button buttonPosNeg = findViewById(R.id.buttonPosNeg);
         mTextView = findViewById(R.id.inputStr);
         mExpressionView = findViewById(R.id.phrase);
-        mMemMark = findViewById(R.id.memMark);
+        TextView mMemMark = findViewById(R.id.memMark);
 
         Button [] buttonsNum = new Button[] {
                 button0,
@@ -80,36 +77,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 buttonMinus,
                 buttonX,
                 buttonDiv,
-//                buttonEq
-        };
-        Button [] buttonsMemoryAct = new Button[] {
                 buttonMR,
                 buttonMC,
                 buttonMPlus,
-                buttonMMinus,
+                buttonMMinus
         };
 
         calculatorModel = new CalculatorModel(mTextView, mExpressionView, mMemMark);
 
-        for (int i = 0; i < buttonsNum.length; i++) {
-            buttonsNum[i].setOnClickListener(calculatorModel.buttonsNumClickListener);
+        for (Button button : buttonsNum) {
+            button.setOnClickListener(calculatorModel.buttonsNumClickListener);
         }
 
-        for (int i = 0; i < buttonsMainAct.length; i++) {
-            buttonsMainAct[i].setOnClickListener(calculatorModel.buttonsMainActClickListener);
+        for (Button button : buttonsMainAct) {
+            button.setOnClickListener(calculatorModel.buttonsMainActClickListener);
         }
-
-//        for (int i = 0; i < buttonsMemoryAct.length; i++) {
-//            buttonsMemoryAct[i].setOnClickListener(calculatorModel.buttonsMemoryActClickListener);
-//        }
 
         buttonC.setOnClickListener(calculatorModel.buttonCClickListener);
 
         buttonEq.setOnClickListener(calculatorModel.buttonEqClickListener);
-
-//        for (int i = 0; i < buttonsMemoryAct.length; i++) {
-//            buttonsMainAct[i].setOnClickListener(calculatorModel.mButtonsMemoryActionClickListener);
-//        }
     }
 
     @Override
@@ -153,16 +139,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onSaveInstanceState(state);
         state.putString(KEY_MAIN_SCREEN, mTextView.getText().toString());
         state.putString(KEY_EQUATION, mExpressionView.getText().toString());
-        Log.e(VALUE, "111. mInputStr: " + mTextView.getText()
-            + "\nmExpression: " + mExpressionView.getText());
+        state.putFloat(KEY_MEMORY, (float) calculatorModel.getMemory());
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         calculatorModel.setState(savedInstanceState.getString(KEY_EQUATION), savedInstanceState.getString(KEY_MAIN_SCREEN));
-        Log.e(VALUE, "112. mInputStr: " + savedInstanceState.getString(KEY_MAIN_SCREEN)
-                + "\nmExpression: " + savedInstanceState.getString(KEY_EQUATION));
+        calculatorModel.setMemory(savedInstanceState.getFloat(KEY_MEMORY));
     }
 
     @Override
