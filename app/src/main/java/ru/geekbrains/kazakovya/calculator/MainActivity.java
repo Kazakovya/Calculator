@@ -134,37 +134,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        Log.e(MY_TAG, "onStart()");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e(MY_TAG, "onResume()");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.e(MY_TAG, "onRestart()");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.e(MY_TAG, "onPause()");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.e(MY_TAG, "onStop()");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e(MY_TAG, "onDestroy()");
     }
 
     @Override
