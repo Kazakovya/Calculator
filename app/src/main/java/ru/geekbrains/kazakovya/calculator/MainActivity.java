@@ -99,17 +99,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Log.e(MY_TAG, "onCreate(): " + (savedInstanceState == null ? "first" : "next"));
 
-//        changeTheme.setOnCheckedChangeListener((buttonView, isChecked) -> {
-//            if (isChecked) {
-//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//                saveNightModeState(true);
-//            } else {
-//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//                saveNightModeState(false);
-//            }
-//            recreate();
-//        });
-
         calculatorModel = new CalculatorModel(mTextView, mExpressionView, mMemMark);
 
         for (Button button : buttonsNum) {
@@ -124,11 +113,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         buttonEq.setOnClickListener(calculatorModel.buttonEqClickListener);
 
-//        settings.setOnClickListener(v -> {
-//            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-//            startActivityForResult(intent, RESULT_OK);
-//        });
-//        checkNightModeActivated();
+        settings.setOnClickListener(v -> {
+            Log.e(VALUE, "////");
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivityForResult(intent, RESULT_OK);
+        });
+        checkNightModeActivated();
     }
 
     @Override

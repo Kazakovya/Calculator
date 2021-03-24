@@ -8,8 +8,7 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     android:layout_marginTop="@dimen/margin_Top"
-    android:padding="@dimen/padding"
-    style="@style/screen">
+    android:padding="@dimen/padding">
     
     
     <com.google.android.material.button.MaterialButton
@@ -21,8 +20,8 @@
         android:gravity="center"
         android:backgroundTint="@color/settings"
         android:text="@string/settings"
-        android:textSize="@dimen/button_text_size"
-        android:textColor="@color/white"/>
+        android:textSize="@dimen/button_text_size"/>
+<!--        android:textColor="@color/white"-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,8 +36,8 @@
             android:layout_gravity="right"
             android:clickable="false"
             android:gravity="center_vertical|right"
-            android:textSize="@dimen/exprission_text_size"
-            android:textColor="@color/white"/>
+            android:textSize="@dimen/exprission_text_size"/>
+<!--            android:textColor="@color/white"-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,8 +52,8 @@
                 android:clickable="false"
                 android:ems="2"
                 android:gravity="center_vertical|left"
-                android:textSize="@dimen/main_screen_text_size"
-                android:textColor="@color/white"/>
+                android:textSize="@dimen/main_screen_text_size"/>
+<!--                android:textColor="@color/white"-->
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/inputStr"
@@ -64,8 +63,8 @@
                 android:clickable="false"
                 android:gravity="center_vertical|right"
                 android:text="@string/inputStr"
-                android:textSize="@dimen/memory_mark_text_size"
-                android:textColor="@color/white"/>
+                android:textSize="@dimen/memory_mark_text_size"/>
+<!--                android:textColor="@color/white"-->
 
         </LinearLayout>
         

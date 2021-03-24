@@ -11,8 +11,8 @@
     <dimen name="margin_bottom">6sp</dimen>
     <dimen name="margin_bottom_settings">40sp</dimen>
     <dimen name="margin_Top">8sp</dimen>
-    <dimen name="padding">8sp</dimen>
-    <dimen name="button_text_size">28sp</dimen>
+    <dimen name="padding">2sp</dimen>
+    <dimen name="button_text_size">20sp</dimen>
     <dimen name="exprission_text_size">30sp</dimen>
     <dimen name="main_screen_text_size">30sp</dimen>
     <dimen name="memory_mark_text_size">36sp</dimen>
