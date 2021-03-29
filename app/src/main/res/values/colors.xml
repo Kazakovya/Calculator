@@ -7,4 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="numButtons">#3569ED</color>
+    <color name="actButtons">#20223E</color>
+    <color name="buttonC">#B1134A</color>
+    <color name="textView">#3240AA</color>
+    <color name="settings">#6B4C88</color>
 </resources>

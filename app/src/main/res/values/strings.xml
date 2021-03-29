@@ -24,7 +24,7 @@
     <string name="buttonC">C</string>
     <string name="buttonBack">➣</string>
     <string name="inputStr">0</string>
-    <string name="memMark"></string>
-    <string name="Expression"></string>
+    <string name="settings">Settings</string>
+    <string name="changeTheme">Change dark theme</string>
 
 </resources>

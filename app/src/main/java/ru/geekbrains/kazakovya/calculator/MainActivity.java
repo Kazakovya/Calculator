@@ -2,7 +2,12 @@ package ru.geekbrains.kazakovya.calculator;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
@@ -11,26 +16,26 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    public static final int CAPASITY = 8;
+    public static final int CAPACITY = 8;
     public static final String MY_TAG = "Lifecicle";
     public static final String VALUE = "Val";
     public static final String  KEY_MAIN_SCREEN = "MainScreen";
     public static final String  KEY_EQUATION = "Equation";
-//    public static final String  KEY_FIRST_ARG = "FirstArg";
-//    public static final String  KEY_SND_ARG = "FirstArg";
-//    public static final String  KEY_LASTACTION_ARG = "FirstArg";
+    public static final String  KEY_MEMORY = "Memory";
+    public static final String MY_PREFERENCES = "nightModePreferences";
+    public static final String KEY_NIGHT_MODE = "nightMode";
+    SharedPreferences sharedPreferences;
 
-    static TextView mTextView;
+    private TextView mTextView;
     private TextView mExpressionView;
-    private TextView mMemMark;
     private CalculatorModel calculatorModel;
+    SwitchCompat changeTheme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.e(MY_TAG, "onCreate(): " + (savedInstanceState == null ? "first" : "next"));
 
         Button button0 = findViewById(R.id.button0);
         Button button1 = findViewById(R.id.button1);
@@ -55,9 +60,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button buttonC = findViewById(R.id.buttonC);
         Button buttonBack = findViewById(R.id.buttonBack);
         Button buttonPosNeg = findViewById(R.id.buttonPosNeg);
+        Button settings = findViewById(R.id.settings);
         mTextView = findViewById(R.id.inputStr);
         mExpressionView = findViewById(R.id.phrase);
-        mMemMark = findViewById(R.id.memMark);
+        TextView mMemMark = findViewById(R.id.memMark);
+        changeTheme = findViewById(R.id.change_theme);
+
 
         Button [] buttonsNum = new Button[] {
                 button0,
@@ -80,72 +88,67 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 buttonMinus,
                 buttonX,
                 buttonDiv,
-//                buttonEq
-        };
-        Button [] buttonsMemoryAct = new Button[] {
                 buttonMR,
                 buttonMC,
                 buttonMPlus,
-                buttonMMinus,
+                buttonMMinus
         };
+
+        sharedPreferences = getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE);
+
+
+        Log.e(MY_TAG, "onCreate(): " + (savedInstanceState == null ? "first" : "next"));
 
         calculatorModel = new CalculatorModel(mTextView, mExpressionView, mMemMark);
 
-        for (int i = 0; i < buttonsNum.length; i++) {
-            buttonsNum[i].setOnClickListener(calculatorModel.buttonsNumClickListener);
+        for (Button button : buttonsNum) {
+            button.setOnClickListener(calculatorModel.buttonsNumClickListener);
         }
 
-        for (int i = 0; i < buttonsMainAct.length; i++) {
-            buttonsMainAct[i].setOnClickListener(calculatorModel.buttonsMainActClickListener);
+        for (Button button : buttonsMainAct) {
+            button.setOnClickListener(calculatorModel.buttonsMainActClickListener);
         }
-
-//        for (int i = 0; i < buttonsMemoryAct.length; i++) {
-//            buttonsMemoryAct[i].setOnClickListener(calculatorModel.buttonsMemoryActClickListener);
-//        }
 
         buttonC.setOnClickListener(calculatorModel.buttonCClickListener);
 
         buttonEq.setOnClickListener(calculatorModel.buttonEqClickListener);
 
-//        for (int i = 0; i < buttonsMemoryAct.length; i++) {
-//            buttonsMainAct[i].setOnClickListener(calculatorModel.mButtonsMemoryActionClickListener);
-//        }
+        settings.setOnClickListener(v -> {
+            Log.e(VALUE, "////");
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivityForResult(intent, RESULT_OK);
+        });
+        checkNightModeActivated();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.e(MY_TAG, "onStart()");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e(MY_TAG, "onResume()");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.e(MY_TAG, "onRestart()");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.e(MY_TAG, "onPause()");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.e(MY_TAG, "onStop()");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e(MY_TAG, "onDestroy()");
     }
 
     @Override
@@ -153,20 +156,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onSaveInstanceState(state);
         state.putString(KEY_MAIN_SCREEN, mTextView.getText().toString());
         state.putString(KEY_EQUATION, mExpressionView.getText().toString());
-        Log.e(VALUE, "111. mInputStr: " + mTextView.getText()
-            + "\nmExpression: " + mExpressionView.getText());
+        state.putFloat(KEY_MEMORY, (float) calculatorModel.getMemory());
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         calculatorModel.setState(savedInstanceState.getString(KEY_EQUATION), savedInstanceState.getString(KEY_MAIN_SCREEN));
-        Log.e(VALUE, "112. mInputStr: " + savedInstanceState.getString(KEY_MAIN_SCREEN)
-                + "\nmExpression: " + savedInstanceState.getString(KEY_EQUATION));
+        calculatorModel.setMemory(savedInstanceState.getFloat(KEY_MEMORY));
     }
 
     @Override
     public void onClick(View v) {
     }
 
+    public void checkNightModeActivated() {
+        if (sharedPreferences.getBoolean(KEY_NIGHT_MODE, false)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode != RESULT_CANCELED) {
+            super.onActivityResult(requestCode, resultCode, data);
+        } else if (resultCode == RESULT_OK) {
+            saveNightModeState(data.getExtras().getBoolean(KEY_NIGHT_MODE));
+            recreate();
+        }
+    }
+
+    private void saveNightModeState(boolean nightMode) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(KEY_NIGHT_MODE, nightMode).apply();
+    }
 }
